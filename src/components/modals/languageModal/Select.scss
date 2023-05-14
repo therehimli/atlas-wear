@@ -1,0 +1,30 @@
+.custom-select__control {
+  border: 2px rgba(128, 128, 128, 0.472) solid !important;
+}
+.custom-select__control:hover {
+  border: 2px black solid !important;
+  transition: border 800ms !important;
+}
+
+.react-select__menu {
+  height: 100vh;
+}
+.custom-select__value-container {
+  cursor: pointer !important;
+}
+
+.custom-select__indicator-separator {
+  display: none !important;
+}
+.custom-select__indicator {
+  cursor: pointer !important;
+}
+.custom-select__option {
+  cursor: pointer !important;
+}
+
+.custom-select__placeholder {
+  font-size: 20px;
+  font-weight: 700;
+  color: grey;
+}
