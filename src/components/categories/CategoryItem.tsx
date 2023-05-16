@@ -7,7 +7,7 @@ const CategoryItem = (category: Category) => {
   return (
     <div
       className="py-3 rounded-2xl hover:bg-neutral-100 cursor-pointer"
-      onClick={() => categoryItem.setCategory(category.value)}
+      onClick={() => categoryItem.setCategory(category.category)}
     >
       {category.title}
     </div>

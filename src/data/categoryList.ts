@@ -1,48 +1,43 @@
 export const categoryList = [
-  { id: 1, title: 'Pants', value: 'pants' },
+  { id: 1, title: 'Pants', category: 'pants' },
   {
     id: 2,
-    value: 'sweaters',
+    category: 'sweaters',
     title: 'Sweaters',
   },
   {
     id: 3,
-    value: 'shirts',
+    category: 'shirts',
     title: 'Shirts',
   },
   {
     id: 4,
-    value: 'hoodies',
-    title: 'Hoodies',
-  },
-  {
-    id: 5,
-    value: 'jackets',
+    category: 'jackets',
     title: 'Jackets',
   },
   {
-    id: 6,
+    id: 5,
     title: 'Jeans',
-    value: 'jeans',
+    category: 'jeans',
+  },
+  {
+    id: 6,
+    title: 'Underwear',
+    category: 'underwear',
+  },
+  {
+    id: 7,
+    title: 'Socks',
+    category: 'socks',
   },
   {
     id: 8,
-    title: 'Underwear',
-    value: 'underwear',
+    title: 'Shorts',
+    category: 'shorts',
   },
   {
     id: 9,
-    title: 'Socks',
-    value: 'socks',
-  },
-  {
-    id: 10,
-    title: 'Shorts',
-    value: 'shorts',
-  },
-  {
-    id: 11,
-    value: 'suits',
+    category: 'suits',
     title: 'Suits',
   },
 ]

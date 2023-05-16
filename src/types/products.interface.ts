@@ -1,17 +1,9 @@
-type Author = {
-  email: string
-  id: string
-}
-
 export type Product = {
-  author: Author
+  id: number
+  images: string[]
   title: string
-  createdAt?: string
-  price: string
-  description: string
-  genre: string
-  image: string
-  updatedAt?: string
-  _v?: number
-  _id?: string
+  price: number
+  category: string
+  rating: number
+  sells: number
 }

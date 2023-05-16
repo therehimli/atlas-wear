@@ -1,13 +1,21 @@
 import { memo, useEffect, useState } from 'react'
 
 import Item from './Item'
-import useSearchState from '@/store/useSearchState'
 import { Product } from '@/types/products.interface'
 import Skeleton from './Skeleton'
-import useLocalStorage from '@/hooks/useLocalStorage'
+import * as api from '@/api/products'
 
 const ItemList = memo(() => {
   const [items, setItems] = useState<Product[]>([])
+
+  useEffect(() => {
+    const getProductsHandler = async () => {
+      const { data } = await api.getProducts()
+      setItems(data)
+    }
+    getProductsHandler()
+  }, [])
+  console.log(items)
 
   if (!items) {
     return (
@@ -23,13 +31,11 @@ const ItemList = memo(() => {
 
   return (
     <div className="grid grid-cols-5 gap-5">
-      {Array(30)
-        .fill(undefined)
-        .map((product: Product) => (
-          <div>
-            <Item product={product} />
-          </div>
-        ))}
+      {items.map((product: Product) => (
+        <div>
+          <Item product={product} />
+        </div>
+      ))}
     </div>
   )
 })
