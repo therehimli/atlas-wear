@@ -1,22 +1,31 @@
-import { useContext, useState } from 'react'
+import { FC } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { MdAlternateEmail } from 'react-icons/md'
 import { FaFacebookF } from 'react-icons/fa'
 import { SlSocialVkontakte } from 'react-icons/sl'
-import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-import Input from '../../UI/Input'
-import Button from '../../UI/Button'
-import SocialButton from '../../UI/SocialButton'
+import Input from '@/UI/Input'
+import Button from '@/UI/Button'
+import SocialButton from '@/UI/SocialButton'
 import useToggleModalStore from '@/store/useModalToggle'
-import useLoginStore from '@/store/useLoginStore'
 
-const LoginBody = () => {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+interface loginBodyProps {
+  loginHandler: () => void
+  email: string
+  password: string
+  setEmail: (email: string) => void
+  setPassword: (password: string) => void
+}
 
+const LoginBody: FC<loginBodyProps> = ({
+  loginHandler,
+  email,
+  password,
+  setEmail,
+  setPassword,
+}) => {
   const toggleModal = useToggleModalStore()
-  const userLogin = useLoginStore()
 
   const onToggleButton = () => {
     toggleModal.toggleButton(2)
@@ -32,6 +41,7 @@ const LoginBody = () => {
           text="Sign in"
           bgcolor="bg-orange-700"
           hoverbgcolor="hover:bg-orange-600"
+          onSubmit={loginHandler}
         />
       </div>
 

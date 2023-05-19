@@ -4,10 +4,10 @@ export interface IMouseProps {
   x: number
   y: number
 }
-const useHandleMouseMove = () => {
+const useChangeIndex = () => {
   const [imageIndex, setImageIndex] = useState(0)
 
   return { imageIndex, setImageIndex }
 }
 
-export default useHandleMouseMove
+export default useChangeIndex

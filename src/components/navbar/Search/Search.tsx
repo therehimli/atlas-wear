@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -8,12 +8,14 @@ import { debounce } from 'lodash'
 import useSearchModalToggle from '@/store/useSearchModalToggle'
 import useSearchState from '@/store/useSearchState'
 import useLocalStorage from '@/hooks/useLocalStorage'
+import { useNavigate } from 'react-router-dom'
 
 const Search = () => {
   library.add(faX)
+  const navigate = useNavigate()
 
   const [text, setText] = useState('')
-  const [value, setValue] = useLocalStorage('search', text)
+  const [value, setValue] = useLocalStorage<string>('search', text)
 
   const useModalSearch = useSearchModalToggle()
   const searchState = useSearchState()
@@ -24,6 +26,7 @@ const Search = () => {
     }, 800),
     []
   )
+
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value)
     setValue(e.target.value)
@@ -36,8 +39,18 @@ const Search = () => {
     setValue('')
   }
 
+  const onEnterDownHandler = (event: KeyboardEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (event.key === 'Enter') {
+      navigate('/search')
+    }
+  }
+
   return (
-    <div className="px-2 py-[6px] rounded-full border-black border-solid border-[2px] flex gap-2 items-center">
+    <form
+      onKeyDown={onEnterDownHandler}
+      className="px-2 py-[6px] rounded-full border-black border-solid border-[2px] flex gap-2 items-center"
+    >
       <AiOutlineSearch color="grey" size={23} className="" />
       <input
         onFocus={() => useModalSearch.setOpen()}
@@ -51,7 +64,7 @@ const Search = () => {
       <button onClick={() => clearInputHandler()}>
         <FontAwesomeIcon size="lg" icon={faX} className="cursor-pointer" />
       </button>
-    </div>
+    </form>
   )
 }
 

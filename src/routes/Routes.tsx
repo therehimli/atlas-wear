@@ -1,11 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
-import HomePage from '../pages/HomePage'
+import HomePage from '@/pages/HomePage'
 const CartPage = lazy(() => import('@/pages/CartPage'))
-const SellPage = lazy(() => import('@/pages/SellPage'))
 const NotFound = lazy(() => import('@/pages/404'))
+const SearchPage = lazy(() => import('@/pages/SearchPage'))
 const FavoritesPage = lazy(() => import('@/pages/FavoritesPage'))
+const ProductPage = lazy(() => import('@/pages/ProductPage'))
 
 const MainRoutes = () => {
   return (
@@ -14,8 +15,9 @@ const MainRoutes = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/sell" element={<SellPage />} />
       </Routes>
     </Suspense>
   )

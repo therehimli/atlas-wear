@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
-const useLocalStorage = <T>(key: string, initialValue: T[]) => {
+const useLocalStorage = <T>(key: string, initialValue: T) => {
+  // console.log(initialValue)
   const [value, setValue] = useState(() => {
     let currentValue
     try {

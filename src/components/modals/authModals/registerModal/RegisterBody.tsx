@@ -4,11 +4,13 @@ import { MdAlternateEmail } from 'react-icons/md'
 import { FaFacebookF } from 'react-icons/fa'
 import { SlSocialVkontakte } from 'react-icons/sl'
 import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-import Input from '../../UI/Input'
-import Button from '../../UI/Button'
-import SocialButton from '../../UI/SocialButton'
+import Input from '@/UI/Input'
+import Button from '@/UI/Button'
+import SocialButton from '@/UI/SocialButton'
 import useToggleModalStore from '@/store/useModalToggle'
+import { userRegister } from '@/api/user'
 
 const RegisterBody = () => {
   const [email, setEmail] = useState<string>('')
@@ -17,6 +19,16 @@ const RegisterBody = () => {
 
   const onToggleButton = () => {
     toggleModal.toggleButton(1)
+  }
+
+  const registerHandler = async () => {
+    try {
+      const { data } = await userRegister(email, password)
+      toggleModal.toggleButton(0)
+      toast.success('Account created successfully')
+    } catch (error) {
+      if (error instanceof Error) toast.error('Email already used')
+    }
   }
 
   return (
@@ -29,6 +41,7 @@ const RegisterBody = () => {
           text="Create"
           bgcolor="bg-orange-700"
           hoverbgcolor="hover:bg-orange-600"
+          onSubmit={registerHandler}
         />
       </div>
 

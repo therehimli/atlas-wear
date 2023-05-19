@@ -1,16 +1,16 @@
-import { createRef, memo, FC } from 'react'
+import { createRef, FC } from 'react'
 import { AiFillStar } from 'react-icons/ai'
 import { Product } from '@/types/products.interface'
-import useHandleMouseMove from '@/hooks/useHandleMouseMove'
+import useChangeIndex from '@/hooks/useChangeIndex'
 
 interface ItemProps {
   product: Product
 }
 
-const Item: FC<ItemProps> = memo(({ product }) => {
+const Item: FC<ItemProps> = ({ product }) => {
   const imageRef = createRef<HTMLImageElement>()
 
-  const { imageIndex, setImageIndex } = useHandleMouseMove()
+  const { imageIndex, setImageIndex } = useChangeIndex()
 
   return (
     <div className="w-[200px] h-[300px] flex flex-col gap-1 ">
@@ -32,7 +32,6 @@ const Item: FC<ItemProps> = memo(({ product }) => {
           ))}
         </div>
       </div>
-
       <div className="text-sm truncate text-clip w-42 h-7">{product.title}</div>
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-1">
@@ -44,6 +43,6 @@ const Item: FC<ItemProps> = memo(({ product }) => {
       <p className="text-xl font-bold">{product.price} $</p>
     </div>
   )
-})
+}
 
 export default Item
