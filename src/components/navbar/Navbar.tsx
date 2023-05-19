@@ -6,11 +6,9 @@ import Search from './Search/Search'
 import Menu from './Menu/Menu'
 import useSearchModalToggle from '@/store/useSearchModalToggle'
 import SearchModal from '../modals/searchModal/SearchModal'
-import useLoginStore from '@/store/useLoginStore'
 
 const Navbar = () => {
   const useSearchModal = useSearchModalToggle()
-  const loginStore = useLoginStore()
 
   return (
     <nav className="flex items-center bg-white mb-10">

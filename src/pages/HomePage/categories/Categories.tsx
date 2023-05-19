@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 
 import { categoryList } from '@/data/categoryList'
 import useCategoryItem from '@/store/useCategoryItem'
-import useUserInfo from '@/store/useUserInfo'
 import useLocalStorage from '@/hooks/useLocalStorage'
 
 const Categories = () => {
@@ -13,7 +12,6 @@ const Categories = () => {
   )
 
   const categoryItem = useCategoryItem()
-  const { userInfo } = useUserInfo()
 
   useEffect(() => {
     categoryItem.setCategory(storagedCategory)
@@ -22,7 +20,7 @@ const Categories = () => {
   return (
     <div className="flex flex-col justify-center text-[17px]">
       <div className="flex items-center gap-2 mb-3">
-        <div className="font-bold">Categories {userInfo.email}</div>
+        <div className="font-bold">Categories</div>
         <AiOutlineRight />
       </div>
       <div>

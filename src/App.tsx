@@ -1,17 +1,12 @@
-import { toast } from 'react-toastify'
-import { useEffect, useState } from 'react'
-import { AxiosError } from 'axios'
-
 import RegisterModal from '@/components/modals/authModals/registerModal/RegisterModal'
 import LoginModal from '@/components/modals/authModals/loginModal/LoginModal'
 import LanguageModal from '@/components/modals/languageModal/LanguageModal'
 import Layout from '@/layout/Layout'
 import MainRoutes from '@/routes/Routes'
-import useToggleModalStore from '@/store/useModalToggle'
-import useUserInfo from '@/store/useUserInfo'
-import useLocalStorage from '@/hooks/useLocalStorage'
-import * as api from '@/api/user'
+
 import './App.css'
+import useToggleModalStore from './store/useModalToggle'
+import { FC } from 'react'
 
 enum modalToggle {
   off = 0,
@@ -20,31 +15,22 @@ enum modalToggle {
   language = 3,
 }
 
-function App() {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const [storedAuth, setStoredAuth] = useLocalStorage('auth', '')
+interface AppProps {
+  loginHandler: () => void
+  email: string
+  password: string
+  setEmail: (email: string) => void
+  setPassword: (password: string) => void
+}
 
+const App: FC<AppProps> = ({
+  loginHandler,
+  email,
+  password,
+  setEmail,
+  setPassword,
+}) => {
   const toggleModal = useToggleModalStore()
-  const userInfo = useUserInfo()
-
-  const loginHandler = async () => {
-    try {
-      const { data } = await api.userLogin(email, password)
-      setStoredAuth(data)
-
-      setEmail('')
-      setPassword('')
-      toggleModal.toggleButton(0)
-      toast.success('Log in successfully')
-    } catch (error) {
-      if (error instanceof AxiosError) toast.error(error?.response?.data)
-    }
-  }
-
-  useEffect(() => {
-    userInfo.setUserInfo(storedAuth)
-  }, [storedAuth])
 
   return (
     <div className="App relative">

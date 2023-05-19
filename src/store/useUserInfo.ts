@@ -6,16 +6,16 @@ type userType = {
 }
 
 interface LoginProps {
-  userInfo: userType
-  setUserInfo: (newUser: userType) => void
+  userLogin: userType
+  setUserLogin: (newUser: userType) => void
 }
 
-const useUserInfo = create<LoginProps>((set) => ({
-  userInfo: {
+const useUserLogin = create<LoginProps>((set) => ({
+  userLogin: {
     email: '',
     password: '',
   },
-  setUserInfo: (newUser) => set({ userInfo: newUser }),
+  setUserLogin: (newUser) => set({ userLogin: newUser }),
 }))
 
-export default useUserInfo
+export default useUserLogin

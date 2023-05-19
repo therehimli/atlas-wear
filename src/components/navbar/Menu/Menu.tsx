@@ -6,16 +6,18 @@ import { BiShoppingBag } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
 
 import useToggleModalStore from '@/store/useModalToggle'
+import useUserLogin from '@/store/useUserInfo'
 
 const Menu: FC = memo(() => {
   const toggleModal = useToggleModalStore()
+  const { userLogin } = useUserLogin()
 
   return (
     <div className="flex gap-10 items-center">
-      {false ? (
+      {userLogin.email ? (
         <div className="flex gap-2 items-center p-2 border-solid border-[1px] border-neutral-500 rounded-2xl">
           <RxAvatar size={25} />
-          <div className="font-bold">Email</div>
+          <div className="font-bold">{userLogin.email}</div>
         </div>
       ) : (
         <div
