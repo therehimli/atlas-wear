@@ -1,11 +1,9 @@
-import { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
+import { KeyboardEvent, MouseEvent } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { AiOutlineSearch } from 'react-icons/ai'
-import { debounce } from 'lodash'
 
-import useSearchModalToggle from '@/store/useSearchModalToggle'
 import useSearchState from '@/store/useSearchState'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import { useNavigate } from 'react-router-dom'
@@ -14,34 +12,18 @@ const Search = () => {
   library.add(faX)
   const navigate = useNavigate()
 
-  const [text, setText] = useState('')
-  const [value, setValue] = useLocalStorage<string>('search', text)
-
-  const useModalSearch = useSearchModalToggle()
+  const [value, setValue] = useLocalStorage<string>('search', '')
   const searchState = useSearchState()
 
-  const changeHandler = useCallback(
-    debounce((searchStorage) => {
-      searchState.setChange(searchStorage)
-    }, 800),
-    []
-  )
-
-  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value)
-    setValue(e.target.value)
-    changeHandler(value)
-  }
-
-  const clearInputHandler = () => {
-    setText('')
-    searchState.setChange('')
+  const clearInputHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
     setValue('')
   }
 
   const onEnterDownHandler = (event: KeyboardEvent<HTMLFormElement>) => {
-    event.preventDefault()
     if (event.key === 'Enter') {
+      event.preventDefault()
+      searchState.setChange(value)
       navigate('/search')
     }
   }
@@ -53,15 +35,13 @@ const Search = () => {
     >
       <AiOutlineSearch color="grey" size={23} className="" />
       <input
-        onFocus={() => useModalSearch.setOpen()}
-        onBlur={() => useModalSearch.setClose()}
         value={value}
-        onChange={(e) => onChangeInput(e)}
+        onChange={(e) => setValue(e.target.value)}
         type="text"
         className="outline-none border-none sm:w-[100px] md:w-[250px] lg:w-[500px]"
         placeholder="Pants..."
       />
-      <button onClick={() => clearInputHandler()}>
+      <button onClick={clearInputHandler}>
         <FontAwesomeIcon size="lg" icon={faX} className="cursor-pointer" />
       </button>
     </form>

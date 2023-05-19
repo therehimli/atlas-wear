@@ -1,31 +1,39 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { MdAlternateEmail } from 'react-icons/md'
 import { FaFacebookF } from 'react-icons/fa'
 import { SlSocialVkontakte } from 'react-icons/sl'
+import { toast } from 'react-toastify'
+import { AxiosError } from 'axios'
 import 'react-toastify/dist/ReactToastify.css'
 
 import Input from '@/UI/Input'
 import Button from '@/UI/Button'
 import SocialButton from '@/UI/SocialButton'
 import useToggleModalStore from '@/store/useModalToggle'
+import useUserLogin from '@/store/useUserLogin'
+import * as api from '@/api/user'
 
-interface loginBodyProps {
-  loginHandler: () => void
-  email: string
-  password: string
-  setEmail: (email: string) => void
-  setPassword: (password: string) => void
-}
+const LoginBody: FC = () => {
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
 
-const LoginBody: FC<loginBodyProps> = ({
-  loginHandler,
-  email,
-  password,
-  setEmail,
-  setPassword,
-}) => {
   const toggleModal = useToggleModalStore()
+  const userLogin = useUserLogin()
+
+  const loginHandler = async () => {
+    try {
+      const { data } = await api.userLogin(email, password)
+      userLogin.setUserLogin(data)
+
+      setEmail('')
+      setPassword('')
+      toggleModal.toggleButton(0)
+      toast.success('Log in successfully')
+    } catch (error) {
+      if (error instanceof AxiosError) toast.error(error?.response?.data)
+    }
+  }
 
   const onToggleButton = () => {
     toggleModal.toggleButton(2)

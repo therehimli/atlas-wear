@@ -24,6 +24,7 @@ const RegisterBody = () => {
   const registerHandler = async () => {
     try {
       const { data } = await userRegister(email, password)
+
       toggleModal.toggleButton(0)
       toast.success('Account created successfully')
     } catch (error) {

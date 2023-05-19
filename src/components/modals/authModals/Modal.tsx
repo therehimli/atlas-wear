@@ -15,6 +15,7 @@ const portal = document.getElementById('portal') as HTMLDivElement
 const Modal: React.FC<IModalProps> = ({ heading, body }) => {
   const toggleModal = useToggleModalStore()
   library.add(faX)
+
   return createPortal(
     <>
       <div className="justify-center items-center flex overflow-y-hidden fixed inset-0 z-50 focus:outline-none bg-neutral-800/80">

@@ -4,12 +4,8 @@ import Logo from './Logo/Logo'
 import Language from './Language/Language'
 import Search from './Search/Search'
 import Menu from './Menu/Menu'
-import useSearchModalToggle from '@/store/useSearchModalToggle'
-import SearchModal from '../modals/searchModal/SearchModal'
 
 const Navbar = () => {
-  const useSearchModal = useSearchModalToggle()
-
   return (
     <nav className="flex items-center bg-white mb-10">
       <div className="w-full relative">
@@ -24,9 +20,7 @@ const Navbar = () => {
           </div>
         </div>
         <RxHamburgerMenu size={30} className="sm:hidden cursor-pointer" />
-        <div className="hidden">
-          {useSearchModal.toggle ? <SearchModal /> : null}
-        </div>
+        <div className="hidden"></div>
       </div>
     </nav>
   )

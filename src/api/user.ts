@@ -19,3 +19,9 @@ export async function userLogin(email: string, password: string) {
     },
   })
 }
+
+export async function userProfile() {
+  return authInstance('/profile', {
+    method: 'GET',
+  })
+}
