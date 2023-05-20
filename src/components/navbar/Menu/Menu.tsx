@@ -1,7 +1,6 @@
 import { FC, memo, useState } from 'react'
 import { FiUser } from 'react-icons/fi'
 import { BsCart } from 'react-icons/bs'
-import { RxAvatar } from 'react-icons/rx'
 import { AiOutlineUser } from 'react-icons/ai'
 import { BiShoppingBag } from 'react-icons/bi'
 import { Link, useNavigate } from 'react-router-dom'
@@ -9,23 +8,24 @@ import { MdOutlineSell } from 'react-icons/md'
 
 import useToggleModalStore from '@/store/useModalToggle'
 import useUserLogin from '@/store/useUserLogin'
+import { userLogOut } from '@/api/user'
 
 const Menu: FC = memo(() => {
   const [toggleProfile, setToggleProfile] = useState(true)
-  const navigate = useNavigate()
-  const toggleModal = useToggleModalStore()
+  const { toggleButton } = useToggleModalStore()
   const { userLogin, setUserLogin } = useUserLogin()
+  const navigate = useNavigate()
 
-  const logOut = () => {
-    setUserLogin({ email: '', password: '' })
-    setToggleProfile(true)
+  const logOut = async () => {
+    await userLogOut()
+    setUserLogin({ email: '', password: '', name: '' })
   }
 
   const onSellHandler = () => {
     if (userLogin.email) {
       navigate('/sell')
     } else {
-      toggleModal.toggleButton(1)
+      toggleButton(1)
     }
   }
 
@@ -33,7 +33,7 @@ const Menu: FC = memo(() => {
     if (userLogin.email) {
       navigate('/orders')
     } else {
-      toggleModal.toggleButton(1)
+      toggleButton(1)
     }
   }
 
@@ -64,7 +64,7 @@ const Menu: FC = memo(() => {
       </div>
 
       {userLogin.email ? (
-        <div className="">
+        <div>
           <div
             onClick={() => setToggleProfile(!toggleProfile)}
             className="flex flex-col items-center mr-3 cursor-pointer text-[13px]"
@@ -96,7 +96,7 @@ const Menu: FC = memo(() => {
         </div>
       ) : (
         <div
-          onClick={() => toggleModal.toggleButton(1)}
+          onClick={() => toggleButton(1)}
           className="flex flex-col items-center mr-3 cursor-pointer"
         >
           <FiUser size={25} />

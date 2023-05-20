@@ -19,14 +19,16 @@ enum modalToggle {
 
 const App: FC = () => {
   const toggleModal = useToggleModalStore()
-  const userLogin = useUserLogin()
+  const { userLogin, setUserLogin, ready, setReady } = useUserLogin()
 
   useEffect(() => {
     const profileHandler = async () => {
       try {
-        if (!userLogin.userLogin.email) {
+        if (!userLogin.email) {
           const { data } = await api.userProfile()
-          userLogin.setUserLogin(data)
+
+          setUserLogin(data)
+          setReady(true)
         }
       } catch (error) {}
     }

@@ -18,18 +18,18 @@ const LoginBody: FC = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
-  const toggleModal = useToggleModalStore()
-  const userLogin = useUserLogin()
+  const { toggleButton } = useToggleModalStore()
+  const { setUserLogin } = useUserLogin()
 
   const loginHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
       const { data } = await api.userLogin(email, password)
-      userLogin.setUserLogin(data)
+      setUserLogin(data)
 
       setEmail('')
       setPassword('')
-      toggleModal.toggleButton(0)
+      toggleButton(0)
       toast.success('Log in successfully')
     } catch (error) {
       if (error instanceof AxiosError) toast.error(error?.response?.data)
@@ -41,11 +41,11 @@ const LoginBody: FC = () => {
       event.preventDefault()
       try {
         const { data } = await api.userLogin(email, password)
-        userLogin.setUserLogin(data)
+        setUserLogin(data)
 
         setEmail('')
         setPassword('')
-        toggleModal.toggleButton(0)
+        toggleButton(0)
         toast.success('Log in successfully')
       } catch (error) {
         if (error instanceof AxiosError) toast.error(error?.response?.data)
@@ -54,7 +54,7 @@ const LoginBody: FC = () => {
   }
 
   const onToggleButton = () => {
-    toggleModal.toggleButton(2)
+    toggleButton(2)
   }
 
   return (
@@ -68,11 +68,12 @@ const LoginBody: FC = () => {
         <Input setValue={setPassword} value={password} label="Password" />
         <Button
           textcolor="text-white"
-          text="Sign in"
           bgcolor="bg-orange-700"
           hoverbgcolor="hover:bg-orange-600"
           type="submit"
-        />
+        >
+          <div>Sign in</div>
+        </Button>
       </div>
 
       <div className="flex items-center flex-col gap-2">
@@ -91,10 +92,11 @@ const LoginBody: FC = () => {
         <Button
           textcolor="text-black"
           onSubmit={onToggleButton}
-          text="Create an account"
           bgcolor="bg-neutral-300"
           hoverbgcolor="hover:bg-neutral-400"
-        />
+        >
+          <div>Create an account</div>
+        </Button>
         <div className="font-bold text-sm border-b-[1px] cursor-pointer border-black line-clamp-1">
           Need help?
         </div>

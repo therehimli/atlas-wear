@@ -1,12 +1,17 @@
 import { nanoid } from 'nanoid'
 
-export const sizeList = [
-  { index: 0, id: nanoid(), size: 'XXS' },
-  { index: 1, id: nanoid(), size: 'XS' },
-  { index: 2, id: nanoid(), size: 'S' },
-  { index: 3, id: nanoid(), size: 'M' },
-  { index: 4, id: nanoid(), size: 'L' },
-  { index: 5, id: nanoid(), size: 'XL' },
-  { index: 6, id: nanoid(), size: 'XXL' },
-  { index: 7, id: nanoid(), size: 'XXXL' },
+export interface ISizeList {
+  value: string
+  label: string
+}
+
+export const sizeList: ISizeList[] = [
+  { value: 'xxs', label: 'XXS' },
+  { value: 'xs', label: 'XS' },
+  { value: 's', label: 'S' },
+  { value: 'm', label: 'M' },
+  { value: 'l', label: 'L' },
+  { value: 'xl', label: 'XL' },
+  { value: 'xxl', label: 'XXL' },
+  { value: 'xxxl', label: 'XXXL' },
 ]

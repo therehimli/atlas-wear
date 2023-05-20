@@ -3,6 +3,7 @@ import { create } from 'zustand'
 type userType = {
   email: string
   password: string
+  name: ''
 }
 
 interface LoginProps {
@@ -16,6 +17,7 @@ const useUserLogin = create<LoginProps>((set) => ({
   userLogin: {
     email: '',
     password: '',
+    name: '',
   },
   ready: false,
   setUserLogin: (newUser) => set({ userLogin: newUser }),

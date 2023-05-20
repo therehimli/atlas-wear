@@ -15,15 +15,12 @@ import { userRegister } from '@/api/user'
 const RegisterBody = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [name, setName] = useState<string>('')
   const toggleModal = useToggleModalStore()
-
-  const onToggleButton = () => {
-    toggleModal.toggleButton(1)
-  }
 
   const registerHandler = async () => {
     try {
-      const { data } = await userRegister(email, password)
+      await userRegister(email, password, name)
 
       toggleModal.toggleButton(0)
       toast.success('Account created successfully')
@@ -32,18 +29,24 @@ const RegisterBody = () => {
     }
   }
 
+  const onToggleButton = () => {
+    toggleModal.toggleButton(1)
+  }
+
   return (
     <div className="flex flex-col items-center gap-5">
       <div className="flex flex-col gap-5 items-center w-full">
-        <Input label="Почта" value={email} setValue={setEmail} />
-        <Input label="Пароль" value={password} setValue={setPassword} />
+        <Input label="Email" value={email} setValue={setEmail} />
+        <Input label="Password" value={password} setValue={setPassword} />
+        <Input label="Full name" value={name} setValue={setName} />
         <Button
           textcolor="text-white"
-          text="Create"
           bgcolor="bg-orange-700"
           hoverbgcolor="hover:bg-orange-600"
           onSubmit={registerHandler}
-        />
+        >
+          <div>Create</div>
+        </Button>
       </div>
 
       <div className="flex items-center flex-col gap-2">
@@ -61,11 +64,12 @@ const RegisterBody = () => {
       <div className="flex items-center flex-col gap-2">
         <Button
           onSubmit={onToggleButton}
-          text="Already have an account?"
           bgcolor="bg-neutral-300"
           textcolor="text-black"
           hoverbgcolor="hover:bg-neutral-400"
-        />
+        >
+          <div>Already have an account?</div>
+        </Button>
         <div className="font-bold text-sm border-b-[1px] cursor-pointer border-black line-clamp-1">
           Need help?
         </div>
