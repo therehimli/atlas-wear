@@ -10,7 +10,7 @@ const Navbar = () => {
     <nav className="flex items-center bg-white mb-10">
       <div className="w-full relative">
         <div className="hidden sm:flex justify-between items-center">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-5">
             <Logo />
             <Language />
             <Search />

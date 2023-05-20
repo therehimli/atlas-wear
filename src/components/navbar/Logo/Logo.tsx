@@ -6,7 +6,7 @@ import './Logo.css'
 const Logo = memo(() => {
   return (
     <Link to="/">
-      <h1 className="font-bold text-[45px]">Atlas wear</h1>
+      <h1 className="font-bold text-[35px]">Atlas wear</h1>
     </Link>
   )
 })

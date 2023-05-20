@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, FormEvent, KeyboardEvent, useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { MdAlternateEmail } from 'react-icons/md'
 import { FaFacebookF } from 'react-icons/fa'
@@ -21,7 +21,8 @@ const LoginBody: FC = () => {
   const toggleModal = useToggleModalStore()
   const userLogin = useUserLogin()
 
-  const loginHandler = async () => {
+  const loginHandler = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     try {
       const { data } = await api.userLogin(email, password)
       userLogin.setUserLogin(data)
@@ -35,12 +36,33 @@ const LoginBody: FC = () => {
     }
   }
 
+  const onEnterDownHandler = async (event: KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      try {
+        const { data } = await api.userLogin(email, password)
+        userLogin.setUserLogin(data)
+
+        setEmail('')
+        setPassword('')
+        toggleModal.toggleButton(0)
+        toast.success('Log in successfully')
+      } catch (error) {
+        if (error instanceof AxiosError) toast.error(error?.response?.data)
+      }
+    }
+  }
+
   const onToggleButton = () => {
     toggleModal.toggleButton(2)
   }
 
   return (
-    <div className="flex flex-col items-center gap-5">
+    <form
+      onKeyDown={onEnterDownHandler}
+      onSubmit={loginHandler}
+      className="flex flex-col items-center gap-5"
+    >
       <div className="flex flex-col gap-5 items-center w-full">
         <Input setValue={setEmail} value={email} label="Email" />
         <Input setValue={setPassword} value={password} label="Password" />
@@ -49,7 +71,7 @@ const LoginBody: FC = () => {
           text="Sign in"
           bgcolor="bg-orange-700"
           hoverbgcolor="hover:bg-orange-600"
-          onSubmit={loginHandler}
+          type="submit"
         />
       </div>
 
@@ -77,7 +99,7 @@ const LoginBody: FC = () => {
           Need help?
         </div>
       </div>
-    </div>
+    </form>
   )
 }
 

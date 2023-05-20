@@ -5,8 +5,9 @@ import HomePage from '@/pages/HomePage'
 const CartPage = lazy(() => import('@/pages/CartPage'))
 const NotFound = lazy(() => import('@/pages/404'))
 const SearchPage = lazy(() => import('@/pages/SearchPage'))
-const FavoritesPage = lazy(() => import('@/pages/FavoritesPage'))
 const ProductPage = lazy(() => import('@/pages/ProductPage'))
+const AccountPage = lazy(() => import('@/pages/AccountPage'))
+const SellPage = lazy(() => import('@/pages/SellPage'))
 
 const MainRoutes = () => {
   return (
@@ -14,9 +15,10 @@ const MainRoutes = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/sell" element={<SellPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/account/:subpage?" element={<AccountPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

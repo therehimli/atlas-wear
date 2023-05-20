@@ -14,18 +14,6 @@ const ProductPage = () => {
 
   const [product, setProduct] = useState<Product>()
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      const { data } = await api.getProduct(id as string)
-      setProduct(data)
-    }
-    fetchProduct()
-  }, [])
-
-  if (!product) {
-    return <div>Loading...</div>
-  }
-
   return (
     <div className="flex flex-col gap-5 justify-center">
       <CategoryTop product={product} />

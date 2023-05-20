@@ -23,11 +23,12 @@ const App: FC = () => {
 
   useEffect(() => {
     const profileHandler = async () => {
-      if (!userLogin.userLogin.email) {
-        const { data } = await api.userProfile()
-        console.log(data)
-        userLogin.setUserLogin(data)
-      }
+      try {
+        if (!userLogin.userLogin.email) {
+          const { data } = await api.userProfile()
+          userLogin.setUserLogin(data)
+        }
+      } catch (error) {}
     }
     profileHandler()
   }, [])

@@ -11,16 +11,6 @@ const ItemList = () => {
   const [items, setItems] = useState<Product[]>([])
   const categoryItem = useCategoryItem()
 
-  // useEffect(() => {
-  //   const getProductsHandler = async () => {
-  //     const { data } = await api.getProducts(categoryItem.category)
-  //     if (categoryItem.category) {
-  //       setItems(data)
-  //     }
-  //   }
-  //   getProductsHandler()
-  // }, [categoryItem.category])
-
   if (!items) {
     return (
       <div className="grid grid-cols-5 gap-5">

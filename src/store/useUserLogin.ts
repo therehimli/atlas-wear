@@ -7,7 +7,9 @@ type userType = {
 
 interface LoginProps {
   userLogin: userType
+  ready: boolean
   setUserLogin: (newUser: userType) => void
+  setReady: (ready: boolean) => void
 }
 
 const useUserLogin = create<LoginProps>((set) => ({
@@ -15,7 +17,9 @@ const useUserLogin = create<LoginProps>((set) => ({
     email: '',
     password: '',
   },
+  ready: false,
   setUserLogin: (newUser) => set({ userLogin: newUser }),
+  setReady: (ready) => set({ ready }),
 }))
 
 export default useUserLogin
