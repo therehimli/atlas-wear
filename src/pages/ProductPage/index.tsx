@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import * as api from '@/api/products'
-import { Product } from '@/types/products.interface'
+import { Product } from '@/types/productTypes'
 import CategoryTop from './CategoryTop'
 import ProductImages from './ProductImages'
 import ProductInfo from './ProductInfo'
@@ -16,7 +16,7 @@ const ProductPage = () => {
 
   return (
     <div className="flex flex-col gap-5 justify-center">
-      <CategoryTop product={product} />
+      {/* <CategoryTop product={product} />
       <div className="flex items-start gap-10">
         <ProductImages product={product} />
         <div className="flex flex-col justify-center gap-6">
@@ -24,7 +24,7 @@ const ProductPage = () => {
           <ProductSizes />
           <ProductCartFavorite />
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

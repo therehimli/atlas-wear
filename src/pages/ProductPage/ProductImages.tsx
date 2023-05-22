@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Product } from '@/types/products.interface'
+import { Product } from '@/types/productTypes'
 import useChangeIndex from '@/hooks/useChangeIndex'
 
 interface ProductImagesProps {

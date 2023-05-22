@@ -1,6 +1,6 @@
 import useCountries from '@/hooks/useCountries'
 import LanguageSelect from './LanguageSelect'
-import { languages } from '@/data/LanguagesList'
+import { languagesList } from '@/data/listData'
 
 const LanguageModalContent: React.FC = () => {
   const { getAll } = useCountries()
@@ -8,7 +8,7 @@ const LanguageModalContent: React.FC = () => {
   return (
     <>
       <div className="flex flex-col gap-4">
-        <LanguageSelect options={languages} placeholder="Language" />
+        <LanguageSelect options={languagesList} placeholder="Language" />
         <LanguageSelect options={getAll()} placeholder="Currency" />
       </div>
     </>

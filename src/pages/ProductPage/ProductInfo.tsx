@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { RiStarSFill } from 'react-icons/ri'
 
-import { Product } from '@/types/products.interface'
+import { Product } from '@/types/productTypes'
 
 interface ProductInfoProps {
   product: Product

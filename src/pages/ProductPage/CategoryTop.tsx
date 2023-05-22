@@ -1,4 +1,4 @@
-import { Product } from '@/types/products.interface'
+import { Product } from '@/types/productTypes'
 import React, { FC } from 'react'
 
 interface CategoryTopProps {

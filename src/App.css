@@ -3,3 +3,16 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+#react-select-3-listbox {
+  z-index: 30;
+  border-radius: 20px;
+}
+
+.css-1u9des2-indicatorSeparator {
+  display: none !important;
+}
+
+.css-1xc3v61-indicatorContainer {
+  cursor: pointer !important;
+}

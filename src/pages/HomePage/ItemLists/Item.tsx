@@ -1,6 +1,6 @@
 import { createRef, FC } from 'react'
 import { AiFillStar } from 'react-icons/ai'
-import { Product } from '@/types/products.interface'
+import { Product } from '@/types/productTypes'
 import useChangeIndex from '@/hooks/useChangeIndex'
 
 interface ItemProps {

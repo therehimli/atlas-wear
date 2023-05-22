@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import Item from './Item'
-import { Product } from '@/types/products.interface'
+import { Product } from '@/types/productTypes'
 import Skeleton from './Skeleton'
 import useCategoryItem from '@/store/useCategoryItem'
 import * as api from '@/api/products'

@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useForm, FieldValues } from 'react-hook-form'
 import { FcGoogle } from 'react-icons/fc'
 import { MdAlternateEmail } from 'react-icons/md'
 import { FaFacebookF } from 'react-icons/fa'
 import { SlSocialVkontakte } from 'react-icons/sl'
+import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -11,17 +13,32 @@ import Button from '@/UI/Button'
 import SocialButton from '@/UI/SocialButton'
 import useToggleModalStore from '@/store/useModalToggle'
 import { userRegister } from '@/api/user'
+import { useKeyDown } from '@/hooks/useKeyDown'
 
 const RegisterBody = () => {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const [name, setName] = useState<string>('')
   const toggleModal = useToggleModalStore()
+  const buttonRef = useRef<HTMLDivElement | null>(null)
 
-  const registerHandler = async () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    defaultValues: {
+      email: '',
+      password: '',
+      name: '',
+    },
+  })
+
+  const registerHandler = async (data: FieldValues) => {
+    const { email, password, name } = data
     try {
       await userRegister(email, password, name)
 
+      reset()
       toggleModal.toggleButton(0)
       toast.success('Account created successfully')
     } catch (error) {
@@ -29,25 +46,126 @@ const RegisterBody = () => {
     }
   }
 
+  useKeyDown(() => {
+    if (buttonRef.current) {
+      buttonRef.current.click()
+    }
+  }, ['Enter'])
+
   const onToggleButton = () => {
     toggleModal.toggleButton(1)
   }
 
   return (
     <div className="flex flex-col items-center gap-5">
-      <div className="flex flex-col gap-5 items-center w-full">
-        <Input label="Email" value={email} setValue={setEmail} />
-        <Input label="Password" value={password} setValue={setPassword} />
-        <Input label="Full name" value={name} setValue={setName} />
+      <form
+        onSubmit={handleSubmit(registerHandler)}
+        className="flex flex-col gap-5 items-center w-full"
+      >
+        <div className="flex flex-col gap-1 w-full">
+          <Input
+            register={register}
+            id="email"
+            label="Email"
+            options={{
+              required: 'Please enter your email',
+              minLength: 3,
+              maxLength: 20,
+              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+            }}
+            errors={errors}
+            disabled={false}
+            watch={watch}
+            type="text"
+            formatPrice={false}
+          />
+          {errors.email && errors.email.type === 'required' && (
+            <p className="text-red-600 self-start text-[14px] ml-4">
+              Email is required.
+            </p>
+          )}
+          {errors.email && errors.email.type === 'pattern' && (
+            <p className="text-red-600 self-start text-[14px] ml-4">
+              Email is not valid.
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col gap-1 w-full">
+          <Input
+            register={register}
+            id="password"
+            label="Password"
+            watch={watch}
+            options={{
+              required: 'Please enter your password',
+              minLength: 6,
+              pattern:
+                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])((?=.*[ -\/:-@\[-\`{-~]{1,})).{6,}$/gm,
+            }}
+            errors={errors}
+            disabled={false}
+            type="text"
+            formatPrice={false}
+          />
+          {errors.password && errors.password.type === 'required' && (
+            <p className="text-red-600 self-start text-[14px] ml-4">
+              Password is required.
+            </p>
+          )}
+          {errors.password && errors.password.type === 'pattern' && (
+            <p className="text-red-600 self-start text-[14px] ml-4">
+              Password should contain at least one uppercase letter, lowercase
+              letter, digit, and special symbol.
+            </p>
+          )}
+          {errors.password && errors.password.type === 'minLength' && (
+            <p className="text-red-600 self-start text-[14px] ml-4">
+              Password should be at-least 6 characters.
+            </p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1 w-full">
+          <Input
+            register={register}
+            id="name"
+            label="Name"
+            watch={watch}
+            options={{
+              required: 'Please enter your name',
+              minLength: 3,
+              maxLength: 20,
+            }}
+            errors={errors}
+            disabled={false}
+            type="text"
+            formatPrice={false}
+          />
+          {errors.name && errors.name.type === 'required' && (
+            <p className="text-red-600 self-start text-[14px] ml-4">
+              Name is required.
+            </p>
+          )}
+          {errors.name && errors.name.type === 'minLength' && (
+            <p className="text-red-600 self-start text-[14px] ml-4">
+              Name should be at-least 3 characters.
+            </p>
+          )}
+          {errors.name && errors.name.type === 'maxLength' && (
+            <p className="text-red-600 self-start text-[14px] ml-4">
+              Name can't contain over 20 symbols
+            </p>
+          )}
+        </div>
         <Button
           textcolor="text-white"
           bgcolor="bg-orange-700"
           hoverbgcolor="hover:bg-orange-600"
-          onSubmit={registerHandler}
+          type="submit"
         >
-          <div>Create</div>
+          <div ref={buttonRef}>Create</div>
         </Button>
-      </div>
+      </form>
 
       <div className="flex items-center flex-col gap-2">
         <div className="text-neutral-500 text-sm">Or continue through</div>
@@ -70,9 +188,12 @@ const RegisterBody = () => {
         >
           <div>Already have an account?</div>
         </Button>
-        <div className="font-bold text-sm border-b-[1px] cursor-pointer border-black line-clamp-1">
+        <Link
+          to="/"
+          className="font-bold text-sm border-b-[1px] cursor-pointer border-black line-clamp-1"
+        >
           Need help?
-        </div>
+        </Link>
       </div>
     </div>
   )

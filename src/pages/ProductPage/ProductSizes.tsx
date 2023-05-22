@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 
-import { sizeList } from '@/data/sizeList'
+import { sizeList } from '@/data/listData'
 
 const ProductSizes: FC = () => {
   const [sizeIndex, setSizeIndex] = useState(0)

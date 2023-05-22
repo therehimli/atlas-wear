@@ -1,9 +1,9 @@
 import { AiOutlineRight } from 'react-icons/ai'
 import { useEffect } from 'react'
 
-import { categoryList } from '@/data/categoryList'
 import useCategoryItem from '@/store/useCategoryItem'
 import useLocalStorage from '@/hooks/useLocalStorage'
+import { categoryList } from '@/data/listData'
 
 const Categories = () => {
   const [storagedCategory, setStoragedCategory] = useLocalStorage(
@@ -28,9 +28,9 @@ const Categories = () => {
           <div
             key={category.id}
             className="py-3 rounded-2xl hover:text-red-900 hover:font-bold cursor-pointer"
-            onClick={() => setStoragedCategory(category.category)}
+            onClick={() => setStoragedCategory(category.value)}
           >
-            {category.title}
+            {category.label}
           </div>
         ))}
       </div>
