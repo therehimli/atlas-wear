@@ -6,7 +6,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import useToggleModalStore from '@/store/useModalToggle'
 
 interface IModalProps {
-  heading: string
+  heading: React.ReactNode
   body: React.ReactNode
 }
 
@@ -28,7 +28,7 @@ const Modal: React.FC<IModalProps> = ({ heading, body }) => {
               >
                 <FontAwesomeIcon size="xl" icon={faX} />
               </button>
-              <div className="text-[32px] font-bold">{heading}</div>
+              <div className="flex gap-2 items-center">{heading}</div>
               <div>{body}</div>
             </div>
           </div>

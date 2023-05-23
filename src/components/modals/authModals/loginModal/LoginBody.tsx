@@ -16,16 +16,21 @@ import useUserLogin from '@/store/useUserLogin'
 import * as api from '@/api/user'
 import { useKeyDown } from '@/hooks/useKeyDown'
 
-const LoginBody: FC = () => {
+interface LoginBodyProps {
+  setError: (error: string) => void
+}
+
+const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
   const { toggleButton } = useToggleModalStore()
   const { setUserLogin } = useUserLogin()
+
   const buttonRef = useRef<HTMLDivElement | null>(null)
 
   const {
     register,
     handleSubmit,
-    watch,
     reset,
+    control,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -44,7 +49,7 @@ const LoginBody: FC = () => {
       toggleButton(0)
       toast.success('Log in successfully')
     } catch (error) {
-      if (error instanceof AxiosError) toast.error(error?.response?.data)
+      if (error instanceof AxiosError) setError(error.response?.data)
     }
   }
 
@@ -58,8 +63,6 @@ const LoginBody: FC = () => {
     toggleButton(2)
   }
 
-  console.log(watch('password'))
-
   return (
     <div className="flex flex-col items-center gap-5">
       <form
@@ -71,7 +74,7 @@ const LoginBody: FC = () => {
             register={register}
             id="email"
             label="Email"
-            watch={watch}
+            control={control}
             options={{
               required: 'Please enter your email',
               pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
@@ -88,7 +91,7 @@ const LoginBody: FC = () => {
           )}
           {errors.email && errors.email.type === 'pattern' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Email is not valid.
+              Please enter a valid email.
             </p>
           )}
         </div>
@@ -97,32 +100,19 @@ const LoginBody: FC = () => {
             register={register}
             id="password"
             label="Password"
-            watch={watch}
             options={{
               required: 'Please enter your password',
-              minLength: 6,
-              pattern:
-                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])((?=.*[ -\/:-@\[-\`{-~]{1,})).{6,}$/gm,
             }}
             errors={errors}
             disabled={false}
-            type="text"
+            control={control}
+            type="password"
+            autoComplete="on"
             formatPrice={false}
           />
           {errors.password && errors.password.type === 'required' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
               Password is required.
-            </p>
-          )}
-          {errors.password && errors.password.type === 'minLength' && (
-            <p className="text-red-600 self-start text-[14px] ml-4">
-              Password should be at-least 6 characters.
-            </p>
-          )}
-          {errors.password && errors.password.type === 'pattern' && (
-            <p className="text-red-600 self-start text-[14px] ml-4">
-              Password should contain at least one uppercase letter, lowercase
-              letter, digit, and special symbol.
             </p>
           )}
         </div>

@@ -7,3 +7,12 @@ export async function getProducts(category: string) {
 export async function getProduct(id: string) {
   return productInstance(`/products/${id}`)
 }
+
+export async function postPhotoLink(link: string) {
+  return productInstance(`/photo-link`, {
+    method: 'POST',
+    data: {
+      link,
+    },
+  })
+}

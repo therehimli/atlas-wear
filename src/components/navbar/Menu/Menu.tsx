@@ -29,14 +29,6 @@ const Menu: FC = memo(() => {
     }
   }
 
-  const onOrdersHandler = () => {
-    if (userLogin.email) {
-      navigate('/orders')
-    } else {
-      toggleButton(1)
-    }
-  }
-
   return (
     <div className="flex gap-5 items-center">
       <Link
@@ -53,14 +45,6 @@ const Menu: FC = memo(() => {
       >
         <MdOutlineSell cursor="pointer" size={27} />
         <p>Sell</p>
-      </div>
-
-      <div
-        className="flex flex-col items-center mr-3 cursor-pointer text-[13px]"
-        onClick={onOrdersHandler}
-      >
-        <BiShoppingBag cursor="pointer" size={27} />
-        <p>Orders</p>
       </div>
 
       {userLogin.email ? (

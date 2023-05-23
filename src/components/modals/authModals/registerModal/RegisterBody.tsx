@@ -3,7 +3,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { MdAlternateEmail } from 'react-icons/md'
 import { FaFacebookF } from 'react-icons/fa'
 import { SlSocialVkontakte } from 'react-icons/sl'
-import { useRef } from 'react'
+import { FC, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -15,15 +15,19 @@ import useToggleModalStore from '@/store/useModalToggle'
 import { userRegister } from '@/api/user'
 import { useKeyDown } from '@/hooks/useKeyDown'
 
-const RegisterBody = () => {
+interface LoginBodyProps {
+  setError: (error: string) => void
+}
+
+const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
   const toggleModal = useToggleModalStore()
   const buttonRef = useRef<HTMLDivElement | null>(null)
 
   const {
     register,
     handleSubmit,
-    watch,
     reset,
+    control,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -42,7 +46,7 @@ const RegisterBody = () => {
       toggleModal.toggleButton(0)
       toast.success('Account created successfully')
     } catch (error) {
-      if (error instanceof Error) toast.error('Email already used')
+      if (error instanceof Error) setError('Email already used')
     }
   }
 
@@ -67,6 +71,7 @@ const RegisterBody = () => {
             register={register}
             id="email"
             label="Email"
+            control={control}
             options={{
               required: 'Please enter your email',
               minLength: 3,
@@ -75,7 +80,6 @@ const RegisterBody = () => {
             }}
             errors={errors}
             disabled={false}
-            watch={watch}
             type="text"
             formatPrice={false}
           />
@@ -95,7 +99,8 @@ const RegisterBody = () => {
             register={register}
             id="password"
             label="Password"
-            watch={watch}
+            control={control}
+            autoComplete="on"
             options={{
               required: 'Please enter your password',
               minLength: 6,
@@ -104,7 +109,7 @@ const RegisterBody = () => {
             }}
             errors={errors}
             disabled={false}
-            type="text"
+            type="password"
             formatPrice={false}
           />
           {errors.password && errors.password.type === 'required' && (
@@ -130,7 +135,6 @@ const RegisterBody = () => {
             register={register}
             id="name"
             label="Name"
-            watch={watch}
             options={{
               required: 'Please enter your name',
               minLength: 3,
@@ -139,6 +143,7 @@ const RegisterBody = () => {
             errors={errors}
             disabled={false}
             type="text"
+            control={control}
             formatPrice={false}
           />
           {errors.name && errors.name.type === 'required' && (

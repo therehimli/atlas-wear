@@ -7,6 +7,8 @@ interface CustomSelectProps {
   formatOptionLabel?: any
   placeholder?: string
   isMulti: boolean
+  onChange?: any
+  value?: any
 }
 
 const CustomSelect: FC<CustomSelectProps> = ({
@@ -15,6 +17,8 @@ const CustomSelect: FC<CustomSelectProps> = ({
   formatOptionLabel,
   placeholder,
   isMulti,
+  onChange,
+  value,
 }) => {
   return (
     <>
@@ -23,6 +27,10 @@ const CustomSelect: FC<CustomSelectProps> = ({
         isMulti={isMulti}
         styles={styles}
         placeholder={placeholder}
+        value={options.find((c: any) => c.value === value)}
+        onChange={(e: any) =>
+          e.value ? onChange(e.value) : onChange(e.map((c: any) => c.value))
+        }
         formatOptionLabel={formatOptionLabel}
         classNames={{
           placeholder: () => 'text-[16px] font-normal',
