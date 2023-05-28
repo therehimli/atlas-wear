@@ -7,7 +7,7 @@ import Layout from '@/layout/Layout'
 import MainRoutes from '@/routes/Routes'
 import useToggleModalStore from './store/useModalToggle'
 import useUserLogin from './store/useUserLogin'
-import * as api from '@/api/user'
+import * as api from '@/api/users'
 import './App.css'
 
 enum modalToggle {

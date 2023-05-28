@@ -7,8 +7,8 @@ import Menu from './Menu/Menu'
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center bg-white mb-10">
-      <div className="w-full relative">
+    <header className="flex items-center bg-white p-2">
+      <nav className="w-full relative">
         <div className="hidden sm:flex justify-between items-center">
           <div className="flex items-center gap-5">
             <Logo />
@@ -21,8 +21,8 @@ const Navbar = () => {
         </div>
         <RxHamburgerMenu size={30} className="sm:hidden cursor-pointer" />
         <div className="hidden"></div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   )
 }
 

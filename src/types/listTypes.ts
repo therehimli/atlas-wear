@@ -22,3 +22,9 @@ export interface IColorsList {
   label: string
   color: string
 }
+
+export interface IDeliveryMethodList {
+  id: string
+  value: string
+  label: string
+}

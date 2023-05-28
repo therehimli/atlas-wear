@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 interface IButtonProps {
   bgcolor: string
   textcolor: string
-  hoverbgcolor: string
+  hoverbgcolor?: string
   onSubmit?: () => void
   disabled?: boolean
   children: ReactNode

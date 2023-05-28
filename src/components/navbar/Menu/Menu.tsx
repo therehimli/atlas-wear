@@ -8,7 +8,7 @@ import { MdOutlineSell } from 'react-icons/md'
 
 import useToggleModalStore from '@/store/useModalToggle'
 import useUserLogin from '@/store/useUserLogin'
-import { userLogOut } from '@/api/user'
+import { userLogOut } from '@/api/users'
 
 const Menu: FC = memo(() => {
   const [toggleProfile, setToggleProfile] = useState(true)
@@ -31,14 +31,6 @@ const Menu: FC = memo(() => {
 
   return (
     <div className="flex gap-5 items-center">
-      <Link
-        className="flex flex-col items-center mr-3 cursor-pointer text-[13px]"
-        to="/cart"
-      >
-        <BsCart size={27} />
-        <p>Cart</p>
-      </Link>
-
       <div
         className="flex flex-col items-center mr-3 cursor-pointer text-[13px]"
         onClick={onSellHandler}

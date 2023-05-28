@@ -2,7 +2,6 @@ import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import HomePage from '@/pages/HomePage'
-const CartPage = lazy(() => import('@/pages/CartPage'))
 const NotFound = lazy(() => import('@/pages/404'))
 const SearchPage = lazy(() => import('@/pages/SearchPage'))
 const ProductPage = lazy(() => import('@/pages/ProductPage'))
@@ -14,11 +13,11 @@ const MainRoutes = () => {
     <Suspense fallback={<h1>Loading...</h1>}>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/cart" element={<CartPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/sell" element={<SellPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/account/:subpage?" element={<AccountPage />} />
+        <Route path="/account/accommodations/:id" element={<SellPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

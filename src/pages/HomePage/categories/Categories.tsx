@@ -18,9 +18,9 @@ const Categories = () => {
   }, [storagedCategory])
 
   return (
-    <div className="flex flex-col justify-center text-[17px]">
+    <div className="flex flex-col justify-center text-[17px] mt-5 sticky top-16 min-w-[130px]">
       <div className="flex items-center gap-2 mb-3">
-        <div className="font-bold">Categories</div>
+        <div className="font-bold">Категории</div>
         <AiOutlineRight />
       </div>
       <div>

@@ -1,18 +1,21 @@
-import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
-import { useForm, FieldValues, useWatch } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { Navigate, useParams } from 'react-router-dom'
+import { useForm, FieldValues } from 'react-hook-form'
 
 import useUserLogin from '@/store/useUserLogin'
-import MainInfo from './MainInfo'
-import TypeInfo from './TypeInfo'
-import DescriptionInfo from './DescriptionInfo'
-import PhotosInfo from './PhotosInfo'
+import MainInfo from './components/MainInfo'
+import DescriptionInfo from './components/DescriptionInfo'
+import PhotosInfo from './components/PhotosInfo'
 import Button from '@/UI/Button'
-import * as api from '@/api/products'
+import * as api from '@/api/accommodations'
+import StateInfo from './components/StateInfo'
+import GenderInfo from './components/GenderInfo'
 
 const SellPage = () => {
   const { userLogin, ready } = useUserLogin()
   const [photoLink, setPhotoLink] = useState('')
+  const [redirect, setRedirect] = useState(false)
+  const { id } = useParams()
 
   const {
     register,
@@ -20,6 +23,7 @@ const SellPage = () => {
     watch,
     control,
     setValue,
+    getValues,
     reset,
     formState: { errors },
   } = useForm<FieldValues>({
@@ -28,31 +32,52 @@ const SellPage = () => {
       price: null,
       category: '',
       description: '',
-      type: '',
+      gender: '',
+      contactEmail: '',
+      contactNumber: null,
+      state: '',
+      delivery: '',
       colors: [],
       sizes: [],
       photos: [],
     },
   })
 
-  const onSubmit = (data: FieldValues) => {
-    reset()
+  const onSaveProduct = async (fields: FieldValues) => {
+    if (id) {
+      const data: FieldValues & { id: string } = { id, ...fields }
+      await api.editAccommodation<FieldValues>(data)
+      setRedirect(true)
+      reset()
+    } else {
+      const { data } = await api.createAccommodation<FieldValues>(fields)
+      console.log(data)
+      setRedirect(true)
+      reset()
+    }
   }
 
-  const onAddPhotoHandler = async () => {
-    const { data: filename } = await api.postPhotoLink(photoLink)
-    setValue('photos', [...watch('photos'), filename])
+  useEffect(() => {
+    if (!id) return
 
-    setPhotoLink('')
-  }
+    const editAccommodation = async () => {
+      const { data } = await api.getAccommodationId(id)
+      reset(data)
+    }
+    editAccommodation()
+  }, [id])
 
   if (!userLogin.email && ready) {
     return <Navigate to="/" />
   }
 
+  if (redirect) {
+    return <Navigate to="/account/accommodations" />
+  }
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSaveProduct)}
       className="flex flex-col justify-center items-start gap-10"
     >
       <div className="text-[32px] w-full gap-2 font-semibold border-b-[0.4px] border-solid border-black">
@@ -66,16 +91,16 @@ const SellPage = () => {
             control={control}
             watch={watch}
           />
-          <TypeInfo register={register} errors={errors} />
+          <GenderInfo register={register} errors={errors} />
+          <StateInfo register={register} />
         </div>
         <PhotosInfo
           setPhotoLink={setPhotoLink}
           photoLink={photoLink}
-          register={register}
-          errors={errors}
           control={control}
+          getValues={getValues}
           watch={watch}
-          onAddPhotoHandler={onAddPhotoHandler}
+          setValue={setValue}
         />
         <DescriptionInfo register={register} id="description" />
       </div>
@@ -84,7 +109,7 @@ const SellPage = () => {
         hoverbgcolor="hover:bg-[#ef3356]"
         textcolor="text-white"
       >
-        <div>Create</div>
+        <div>{id ? 'Обновить' : 'Разместить'}</div>
       </Button>
     </form>
   )

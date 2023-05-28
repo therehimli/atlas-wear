@@ -6,12 +6,20 @@ import { Product } from '@/types/productTypes'
 import Skeleton from './Skeleton'
 import useCategoryItem from '@/store/useCategoryItem'
 import * as api from '@/api/products'
+import useProductsStore from '@/store/useProductsStore'
 
 const ItemList = () => {
-  const [items, setItems] = useState<Product[]>([])
-  const categoryItem = useCategoryItem()
+  const { products, setProducts } = useProductsStore()
 
-  if (!items) {
+  useEffect(() => {
+    const getProductsHandler = async () => {
+      const { data } = await api.getProducts()
+      setProducts(data)
+    }
+    getProductsHandler()
+  }, [])
+
+  if (!products) {
     return (
       <div className="grid grid-cols-5 gap-5">
         {Array(30)
@@ -24,11 +32,9 @@ const ItemList = () => {
   }
 
   return (
-    <div className="grid grid-cols-5 gap-5">
-      {items.map((product: Product) => (
-        <Link to={`product/${product.id}`}>
-          <Item product={product} key={product.id} />
-        </Link>
+    <div className="grid grid-cols-5 gap-[50px]">
+      {products.map((product: Product) => (
+        <Item product={product} key={product._id} />
       ))}
     </div>
   )

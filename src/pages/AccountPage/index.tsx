@@ -3,9 +3,9 @@ import { AiOutlineProfile } from 'react-icons/ai'
 import { MdOutlineSell, MdFavoriteBorder } from 'react-icons/md'
 
 import useUserLogin from '@/store/useUserLogin'
-import * as api from '@/api/user'
-import Accommodations from './Accommodations'
-import ProfileSettings from './ProfileSettings'
+import * as api from '@/api/users'
+import Accommodations from './components/Accommodations'
+import ProfileSettings from './components/ProfileSettings'
 
 const AccountPage = () => {
   const { userLogin, setUserLogin, ready } = useUserLogin()
@@ -16,7 +16,7 @@ const AccountPage = () => {
   }
 
   const linkClasses = (type: string = 'profile') => {
-    let classes = ' py-2 px-6 flex items-center gap-1 rounded-full'
+    let classes = 'py-2 px-6 flex items-center rounded-full '
 
     if (subpage === undefined) {
       subpage = 'profile'
@@ -25,7 +25,7 @@ const AccountPage = () => {
     if (type === subpage) {
       classes += ' text-white bg-[#FF395C]'
     } else {
-      classes += ' bg-neutral-100'
+      classes += ' border-neutral-300 border-[1px] border-solid'
     }
 
     return classes
@@ -41,18 +41,18 @@ const AccountPage = () => {
       <nav className="w-full flex items-center justify-center mt-8 gap-10 mb-8">
         <Link to="/account" className={linkClasses('profile')}>
           <AiOutlineProfile size={20} />
-          <div>Profile settings</div>
+          <div className="ml-2">Профиль</div>
         </Link>
         <Link className={linkClasses('favorites')} to="/account/favorites">
           <MdFavoriteBorder size={20} />
-          <div>My favorites</div>
+          <div className="ml-2">Мои избранные</div>
         </Link>
         <Link
           className={linkClasses('accommodations')}
           to="/account/accommodations"
         >
           <MdOutlineSell size={20} />
-          <div>My accommodations</div>
+          <div className="ml-2">Мои объявления</div>
         </Link>
       </nav>
       {subpage === 'profile' && <ProfileSettings logOut={logOut} />}

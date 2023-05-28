@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid'
 import {
   ICategoryList,
   IColorsList,
+  IDeliveryMethodList,
   ILanguageList,
   ISizeList,
 } from '@/types/listTypes'
@@ -48,15 +49,15 @@ export const sizeList: ISizeList[] = [
 ]
 
 export const categoryList: ICategoryList[] = [
-  { id: nanoid(), label: 'Pants', value: 'pants' },
-  { id: nanoid(), value: 'sweaters', label: 'Sweaters' },
-  { id: nanoid(), value: 'shirts', label: 'Shirts' },
-  { id: nanoid(), value: 'jackets', label: 'Jackets' },
-  { id: nanoid(), label: 'Jeans', value: 'jeans' },
-  { id: nanoid(), label: 'Underwear', value: 'underwear' },
-  { id: nanoid(), label: 'Socks', value: 'socks' },
-  { id: nanoid(), label: 'Shorts', value: 'shorts' },
-  { id: nanoid(), value: 'suits', label: 'Suits' },
+  { id: nanoid(), value: 'штаны', label: 'Штаны' },
+  { id: nanoid(), value: 'свитеры', label: 'Свитеры' },
+  { id: nanoid(), value: 'футболки', label: 'Футболки' },
+  { id: nanoid(), value: 'жакеты', label: 'Жакеты' },
+  { id: nanoid(), value: 'джинсы', label: 'Джинсы' },
+  { id: nanoid(), value: 'нижнее бельё', label: 'Нижнее бельё' },
+  { id: nanoid(), value: 'носки', label: 'Носки' },
+  { id: nanoid(), value: 'шорты', label: 'Шорты' },
+  { id: nanoid(), value: 'костюмы', label: 'Костюмы' },
 ]
 
 export const languagesList: ILanguageList[] = [
@@ -64,18 +65,64 @@ export const languagesList: ILanguageList[] = [
   { id: nanoid(), value: 'english', label: 'English' },
 ]
 
+export const deliveryMethodList: IDeliveryMethodList[] = [
+  { id: nanoid(), value: 'Бесплатная', label: 'Бесплатная' },
+  { id: nanoid(), value: 'Платная', label: 'Платная' },
+  { id: nanoid(), value: 'Самовывоз', label: 'Самовывоз' },
+]
+
 export const colorsList: IColorsList[] = [
-  { id: nanoid(), value: 'white', label: 'White', color: 'bg-white' },
-  { id: nanoid(), value: 'black', label: 'Black', color: 'bg-black' },
-  { id: nanoid(), value: 'orange', label: 'Orange', color: 'bg-orange-500' },
-  { id: nanoid(), value: 'blue', label: 'Blue', color: 'bg-blue-600' },
-  { id: nanoid(), value: 'red', label: 'Red', color: 'bg-red-600' },
-  { id: nanoid(), value: 'yellow', label: 'Yellow', color: 'bg-yellow-400' },
-  { id: nanoid(), value: 'lime', label: 'Lime', color: 'bg-lime-400' },
-  { id: nanoid(), value: 'grey', label: 'Grey', color: 'bg-neutral-500' },
-  { id: nanoid(), value: 'sky', label: 'Sky', color: 'bg-sky-400' },
-  { id: nanoid(), value: 'purple', label: 'Purple', color: 'bg-purple-700' },
-  { id: nanoid(), value: 'violet', label: 'Violet', color: 'bg-violet-600' },
-  { id: nanoid(), value: 'green', label: 'Green', color: 'bg-green-800' },
-  { id: nanoid(), value: 'pink', label: 'Pink', color: 'bg-fuchsia-600' },
+  { id: nanoid(), value: 'bg-white', label: 'Белый', color: 'bg-white' },
+  { id: nanoid(), value: 'bg-black', label: 'Чёрный', color: 'bg-black' },
+  {
+    id: nanoid(),
+    value: 'bg-orange-500',
+    label: 'Оранжевый',
+    color: 'bg-orange-500',
+  },
+  { id: nanoid(), value: 'bg-blue-600', label: 'Синий', color: 'bg-blue-600' },
+  { id: nanoid(), value: 'bg-red-600', label: 'Красный', color: 'bg-red-600' },
+  {
+    id: nanoid(),
+    value: 'bg-yellow-400',
+    label: 'Жёлтый',
+    color: 'bg-yellow-400',
+  },
+  {
+    id: nanoid(),
+    value: 'bg-lime-400',
+    label: 'Лаймовый',
+    color: 'bg-lime-400',
+  },
+  {
+    id: nanoid(),
+    value: 'bg-neutral-500',
+    label: 'Серый',
+    color: 'bg-neutral-500',
+  },
+  { id: nanoid(), value: 'bg-sky-400', label: 'Голубой', color: 'bg-sky-400' },
+  {
+    id: nanoid(),
+    value: 'bg-purple-700',
+    label: 'Фиолетовый',
+    color: 'bg-purple-700',
+  },
+  {
+    id: nanoid(),
+    value: 'bg-violet-600',
+    label: 'Лиловый',
+    color: 'bg-violet-600',
+  },
+  {
+    id: nanoid(),
+    value: 'bg-green-800',
+    label: 'Зеленый',
+    color: 'bg-green-800',
+  },
+  {
+    id: nanoid(),
+    value: 'bg-fuchsia-600',
+    label: 'Розовый',
+    color: 'bg-fuchsia-600',
+  },
 ]

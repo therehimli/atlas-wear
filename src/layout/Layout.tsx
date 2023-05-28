@@ -6,11 +6,11 @@ interface ILayoutProps {
 
 const Layout: React.FC<ILayoutProps> = ({ children }) => {
   return (
-    <div className="flex flex-col h-full relative px-32">
-      <header>
+    <div className="flex flex-col h-full relative px-20 ">
+      <header className="sticky top-0 z-50">
         <Navbar />
       </header>
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 ">{children}</main>
     </div>
   )
 }

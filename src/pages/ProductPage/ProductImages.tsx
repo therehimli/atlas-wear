@@ -9,27 +9,35 @@ interface ProductImagesProps {
 
 const ProductImages: FC<ProductImagesProps> = ({ product }) => {
   const { imageIndex, setImageIndex } = useChangeIndex()
+
   return (
-    <div className="flex items-center justify-between gap-[10px]">
-      <div className="flex flex-col items-center gap-5 w-[100px] h-[450px]  overflow-scroll no-scrollbar">
-        {product?.images.map((image, i) => (
-          <div className="w-[100px] h-[100px]">
+    <div className="flex items-start justify-between gap-[10px]">
+      <div className="flex flex-col items-center gap-5 h-[400px] overflow-scroll no-scrollbar">
+        {product.photos.map((image, i) => (
+          <div key={image} className="w-[120px] h-[120px]">
             <img
-              src={image}
+              src={`http://localhost:4000/uploads/${image}`}
               alt="product-image"
               onClick={() => setImageIndex(i)}
-              className="cursor-pointer"
+              className="cursor-pointer w-full h-full border-2 rounded-3xl shadow-md"
             />
           </div>
         ))}
       </div>
-      <div className="w-[500px] h-[500px]">
-        <img
-          src={product?.images[imageIndex]}
-          alt="main-image"
-          width={500}
-          height={500}
-        />
+      <div className="w-[400px] h-[400px]">
+        {product.photos.length > 0 ? (
+          <img
+            src={`http://localhost:4000/uploads/${product.photos[imageIndex]}`}
+            alt="main-image"
+            className="w-full h-full border-2 rounded-3xl shadow-xl"
+          />
+        ) : (
+          <img
+            src={`http://localhost:4000/uploads/defaultProduct.png`}
+            alt="main-image"
+            className="w-full h-full border-2 rounded-3xl shadow-xl"
+          />
+        )}
       </div>
     </div>
   )

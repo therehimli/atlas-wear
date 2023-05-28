@@ -14,4 +14,7 @@ export default defineConfig({
       '/users': 'http://localhost:9999',
     },
   },
+  optimizeDeps: {
+    exclude: ['js-big-decimal'],
+  },
 })

@@ -1,5 +1,6 @@
 import { Product } from '@/types/productTypes'
-import React, { FC } from 'react'
+import { FC } from 'react'
+import { Link } from 'react-router-dom'
 
 interface CategoryTopProps {
   product: Product
@@ -8,16 +9,17 @@ interface CategoryTopProps {
 const CategoryTop: FC<CategoryTopProps> = ({ product }) => {
   return (
     <div className="text-neutral-400 text-[14px] flex items-center gap-2">
-      <div>Main</div>
+      <Link className="text-blue-400 hover:text-blue-700" to="/">
+        главная
+      </Link>
       <div className="font-[bold] text-[17px] mt-[2.5px]">•</div>
-      <div> {product?.category}</div>
-      <div className="font-[bold] text-[17px]">•</div>
+      <Link className="text-blue-400 hover:text-blue-700" to="/search">
+        {product.category}
+      </Link>
+      <div className="font-[bold] text-[17px] mt-[2.5px]">•</div>
       <div>
-        {product?.gender === 'men'
-          ? 'men wears'
-          : product?.gender === 'women'
-          ? 'women wears'
-          : 'unisex wears'}
+        {product.gender.charAt(0).toLowerCase() + product.gender.slice(1)}{' '}
+        одежда
       </div>
     </div>
   )

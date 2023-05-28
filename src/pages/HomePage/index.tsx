@@ -8,7 +8,7 @@ const HomePage = () => {
         <aside>
           <Categories />
         </aside>
-        <main>
+        <main className="px-16 py-10">
           <ItemList />
         </main>
       </div>

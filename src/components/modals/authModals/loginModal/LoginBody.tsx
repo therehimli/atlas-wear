@@ -13,7 +13,7 @@ import Button from '@/UI/Button'
 import SocialButton from '@/UI/SocialButton'
 import useToggleModalStore from '@/store/useModalToggle'
 import useUserLogin from '@/store/useUserLogin'
-import * as api from '@/api/user'
+import * as api from '@/api/users'
 import { useKeyDown } from '@/hooks/useKeyDown'
 
 interface LoginBodyProps {
@@ -74,15 +74,14 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
             register={register}
             id="email"
             label="Email"
-            control={control}
             options={{
               required: 'Please enter your email',
               pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
             }}
             errors={errors}
             disabled={false}
+            control={control}
             type="text"
-            formatPrice={false}
           />
           {errors.email && errors.email.type === 'required' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
@@ -100,15 +99,14 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
             register={register}
             id="password"
             label="Password"
+            control={control}
             options={{
               required: 'Please enter your password',
             }}
             errors={errors}
             disabled={false}
-            control={control}
             type="password"
             autoComplete="on"
-            formatPrice={false}
           />
           {errors.password && errors.password.type === 'required' && (
             <p className="text-red-600 self-start text-[14px] ml-4">

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC, useRef } from 'react'
 import { BiDollar } from 'react-icons/bi'
 import {
   FieldErrors,
@@ -18,8 +18,6 @@ interface InputProps {
   autoComplete?: string
   register: UseFormRegister<FieldValues>
   errors?: FieldErrors
-  value?: string
-  setValue?: (value: string) => void
 }
 
 const Input: FC<InputProps> = ({
@@ -32,8 +30,6 @@ const Input: FC<InputProps> = ({
   options,
   errors,
   autoComplete,
-  value,
-  setValue,
   control,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -42,12 +38,10 @@ const Input: FC<InputProps> = ({
     inputRef?.current?.focus()
   }
 
-  const email = useWatch({
+  const value = useWatch({
     control,
-    name: 'email',
+    name: id,
   })
-
-  console.log(email)
 
   const { ref, ...rest } = { ...register(id, options) }
 
@@ -59,10 +53,6 @@ const Input: FC<InputProps> = ({
         ref={(e) => {
           ref(e)
           inputRef.current = e
-        }}
-        value={value}
-        onChange={(event) => {
-          if (setValue) setValue(event.target.value)
         }}
         disabled={disabled}
         autoComplete={autoComplete}
@@ -79,9 +69,9 @@ const Input: FC<InputProps> = ({
       <label
         onClick={onInputFocus}
         className={`absolute cursor-text text-md duration-150 transform -translate-y-1 top-7 z-10 origin-[0] peer-placeholder-shown:scale-100 left-6 text-[16px] text-neutral-500 peer-placeholder-shown:translate-y-2 peer-focus:scale-75 ml-2 peer-focus:-translate-y-6
-        ${
-          errors && errors[id] ? 'text-rose-500' : 'text-zinc-400'
-        } -translate-y-[24px] scale-75`}
+        ${errors && errors[id] ? 'text-rose-500' : 'text-zinc-400'} ${
+          value ? '-translate-y-[24px] scale-75' : ''
+        }`}
       >
         {label}
       </label>
