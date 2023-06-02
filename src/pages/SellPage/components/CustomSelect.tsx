@@ -1,14 +1,19 @@
-import { FC } from 'react'
-import Select from 'react-select'
+import { IColorsList } from '@/types/listTypes'
+import { FC, ReactNode } from 'react'
+import Select, { FormatOptionLabelMeta, PropsValue } from 'react-select'
 
 interface CustomSelectProps {
   styles?: any
   options?: any
-  formatOptionLabel?: any
+  formatOptionLabel?: (
+    data: IColorsList,
+    formatOptionLabelMeta: FormatOptionLabelMeta<IColorsList>
+  ) => ReactNode
+
   placeholder?: string
   isMulti: boolean
-  onChange?: any
-  value?: any
+  onChange?: (value: string) => void
+  value?: PropsValue<string>
 }
 
 const CustomSelect: FC<CustomSelectProps> = ({
@@ -27,9 +32,9 @@ const CustomSelect: FC<CustomSelectProps> = ({
         isMulti={isMulti}
         styles={styles}
         placeholder={placeholder}
-        value={options.find((c: any) => c.value === value)}
+        value={options?.find((c: any) => c.value === value)}
         onChange={(e: any) =>
-          e.value ? onChange(e.value) : onChange(e.map((c: any) => c.value))
+          e.value ? onChange!(e.value) : onChange!(e.map((c: any) => c.value))
         }
         formatOptionLabel={formatOptionLabel}
         classNames={{

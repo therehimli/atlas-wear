@@ -1,29 +1,34 @@
 import { useEffect, useState } from 'react'
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useForm, FieldValues } from 'react-hook-form'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import useUserLogin from '@/store/useUserLogin'
 import MainInfo from './components/MainInfo'
-import DescriptionInfo from './components/DescriptionInfo'
 import PhotosInfo from './components/PhotosInfo'
-import Button from '@/UI/Button'
-import * as api from '@/api/accommodations'
 import StateInfo from './components/StateInfo'
 import GenderInfo from './components/GenderInfo'
+import DescriptionInfo from './components/DescriptionInfo'
+import Button from '@/UI/Button'
+import {
+  editAccommodationHandler,
+  createAccommodationHandler,
+  getAccommodationIdHandler,
+} from '@/api/accommodations'
 
 const SellPage = () => {
-  const { userLogin, ready } = useUserLogin()
+  const { userLogin } = useUserLogin()
   const [photoLink, setPhotoLink] = useState('')
   const [redirect, setRedirect] = useState(false)
   const { id } = useParams()
+  const navigate = useNavigate()
+  const client = useQueryClient()
 
   const {
     register,
     handleSubmit,
-    watch,
     control,
     setValue,
-    getValues,
     reset,
     formState: { errors },
   } = useForm<FieldValues>({
@@ -43,15 +48,30 @@ const SellPage = () => {
     },
   })
 
+  const { mutate: editAccommodation } = useMutation({
+    mutationFn: editAccommodationHandler,
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ['accommodations'] })
+    },
+  })
+
+  const { mutate: createAccommodation } = useMutation({
+    mutationFn: createAccommodationHandler,
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ['accommodations'] })
+    },
+  })
+
   const onSaveProduct = async (fields: FieldValues) => {
     if (id) {
-      const data: FieldValues & { id: string } = { id, ...fields }
-      await api.editAccommodation<FieldValues>(data)
+      const data = { id, ...fields }
+      editAccommodation(data)
+
       setRedirect(true)
       reset()
     } else {
-      const { data } = await api.createAccommodation<FieldValues>(fields)
-      console.log(data)
+      createAccommodation(fields)
+
       setRedirect(true)
       reset()
     }
@@ -61,19 +81,17 @@ const SellPage = () => {
     if (!id) return
 
     const editAccommodation = async () => {
-      const { data } = await api.getAccommodationId(id)
+      const { data } = await getAccommodationIdHandler(id)
       reset(data)
     }
     editAccommodation()
   }, [id])
 
-  if (!userLogin.email && ready) {
-    return <Navigate to="/" />
-  }
-
   if (redirect) {
     return <Navigate to="/account/accommodations" />
   }
+
+  if (!userLogin.email) return <Navigate to="/" />
 
   return (
     <form
@@ -85,12 +103,7 @@ const SellPage = () => {
       </div>
       <div className="w-full flex flex-col items-center gap-10">
         <div className="grid grid-cols-2 w-full gap-3">
-          <MainInfo
-            register={register}
-            errors={errors}
-            control={control}
-            watch={watch}
-          />
+          <MainInfo register={register} errors={errors} control={control} />
           <GenderInfo register={register} errors={errors} />
           <StateInfo register={register} />
         </div>
@@ -98,8 +111,6 @@ const SellPage = () => {
           setPhotoLink={setPhotoLink}
           photoLink={photoLink}
           control={control}
-          getValues={getValues}
-          watch={watch}
           setValue={setValue}
         />
         <DescriptionInfo register={register} id="description" />

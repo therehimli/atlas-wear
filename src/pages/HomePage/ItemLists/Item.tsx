@@ -1,8 +1,13 @@
 import { createRef, FC } from 'react'
-import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from 'react-icons/ai'
-import { Product } from '@/types/productTypes'
-import useChangeIndex from '@/hooks/useChangeIndex'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
+
+import { Product } from '@/types/productTypes'
+import { deleteFavoriteHandler, addFavoriteHandler } from '@/api/favorites'
+import useChangeIndex from '@/hooks/useChangeIndex'
+import useUserLogin from '@/store/useUserLogin'
+import useToggleModalStore from '@/store/useModalToggle'
 
 interface ItemProps {
   product: Product
@@ -10,8 +15,24 @@ interface ItemProps {
 
 const Item: FC<ItemProps> = ({ product }) => {
   const imageRef = createRef<HTMLImageElement>()
-
   const { imageIndex, setImageIndex } = useChangeIndex()
+  const client = useQueryClient()
+  const { userLogin } = useUserLogin()
+  const { toggleButton } = useToggleModalStore()
+
+  const { mutate: addFavorite } = useMutation({
+    mutationFn: addFavoriteHandler,
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ['products'] })
+    },
+  })
+
+  const { mutate: deleteFavorite } = useMutation({
+    mutationFn: deleteFavoriteHandler,
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ['products'] })
+    },
+  })
 
   return (
     <div className="w-[200px] h-[300px] flex flex-col gap-1">
@@ -21,12 +42,12 @@ const Item: FC<ItemProps> = ({ product }) => {
             <img
               ref={imageRef}
               className="w-[200px] h-[200px] rounded-3xl shadow-md"
-              src={`http://localhost:4000/uploads/${product.photos[imageIndex]}`}
+              src={`http://localhost:4000/uploads/images/${product.photos[imageIndex]}`}
               alt="product"
             />
           ) : (
             <img
-              src={`http://localhost:4000/uploads/defaultProduct.png`}
+              src={`http://localhost:4000/uploads/images/defaultProduct.png`}
               alt="main-image"
               className="w-full h-full border-2 rounded-3xl shadow-md"
             />
@@ -62,10 +83,27 @@ const Item: FC<ItemProps> = ({ product }) => {
           </div>
         </Link>
         <div>
-          {true ? (
-            <AiOutlineHeart color="red" size={30} cursor="pointer" />
+          {!userLogin.email ? (
+            <AiOutlineHeart
+              color="red"
+              size={30}
+              cursor="pointer"
+              onClick={() => toggleButton(1)}
+            />
+          ) : product.favorite ? (
+            <AiFillHeart
+              color="red"
+              size={30}
+              cursor="pointer"
+              onClick={() => deleteFavorite(product._id)}
+            />
           ) : (
-            <AiFillHeart color="red" size={30} />
+            <AiOutlineHeart
+              color="red"
+              size={30}
+              cursor="pointer"
+              onClick={() => addFavorite(product._id)}
+            />
           )}
         </div>
       </div>

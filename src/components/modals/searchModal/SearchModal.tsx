@@ -1,5 +1,3 @@
-import React from 'react'
-
 import SearchModalItem from './SearchModalItem'
 
 const SearchModal = () => {

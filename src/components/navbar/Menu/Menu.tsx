@@ -1,14 +1,12 @@
 import { FC, memo, useState } from 'react'
 import { FiUser } from 'react-icons/fi'
-import { BsCart } from 'react-icons/bs'
 import { AiOutlineUser } from 'react-icons/ai'
-import { BiShoppingBag } from 'react-icons/bi'
-import { Link, useNavigate } from 'react-router-dom'
 import { MdOutlineSell } from 'react-icons/md'
+import { Link, useNavigate } from 'react-router-dom'
 
 import useToggleModalStore from '@/store/useModalToggle'
 import useUserLogin from '@/store/useUserLogin'
-import { userLogOut } from '@/api/users'
+import { userLogOutHandler } from '@/api/users'
 
 const Menu: FC = memo(() => {
   const [toggleProfile, setToggleProfile] = useState(true)
@@ -17,8 +15,8 @@ const Menu: FC = memo(() => {
   const navigate = useNavigate()
 
   const logOut = async () => {
-    await userLogOut()
-    setUserLogin({ email: '', password: '', name: '' })
+    await userLogOutHandler()
+    setUserLogin({ email: '', password: '', name: '', avatar: '', _id: '' })
   }
 
   const onSellHandler = () => {

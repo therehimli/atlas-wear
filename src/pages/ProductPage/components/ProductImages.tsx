@@ -16,7 +16,7 @@ const ProductImages: FC<ProductImagesProps> = ({ product }) => {
         {product.photos.map((image, i) => (
           <div key={image} className="w-[120px] h-[120px]">
             <img
-              src={`http://localhost:4000/uploads/${image}`}
+              src={`http://localhost:4000/uploads/images/${image}`}
               alt="product-image"
               onClick={() => setImageIndex(i)}
               className="cursor-pointer w-full h-full border-2 rounded-3xl shadow-md"
@@ -27,13 +27,13 @@ const ProductImages: FC<ProductImagesProps> = ({ product }) => {
       <div className="w-[400px] h-[400px]">
         {product.photos.length > 0 ? (
           <img
-            src={`http://localhost:4000/uploads/${product.photos[imageIndex]}`}
+            src={`http://localhost:4000/uploads/images/${product.photos[imageIndex]}`}
             alt="main-image"
             className="w-full h-full border-2 rounded-3xl shadow-xl"
           />
         ) : (
           <img
-            src={`http://localhost:4000/uploads/defaultProduct.png`}
+            src={`http://localhost:4000/uploads/images/defaultProduct.png`}
             alt="main-image"
             className="w-full h-full border-2 rounded-3xl shadow-xl"
           />

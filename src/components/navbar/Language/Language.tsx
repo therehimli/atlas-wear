@@ -1,6 +1,7 @@
-import { GrLanguage } from 'react-icons/gr'
-import useToggleModalStore from '../../../store/useModalToggle'
 import { memo } from 'react'
+import { GrLanguage } from 'react-icons/gr'
+
+import useToggleModalStore from '@/store/useModalToggle'
 
 const Language = memo(() => {
   const toggleModal = useToggleModalStore()

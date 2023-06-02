@@ -59,7 +59,12 @@ const GenderInfo: FC<GenderInfoProps> = ({ register, errors }) => {
           <div className="text-center text-[18px]">Унисекс</div>
         </label>
         <label className="flex items-center gap-2 p-2 border-2 rounded-full">
-          <input type="radio" className="w-5 h-5" value="kid" />
+          <input
+            type="radio"
+            className="w-5 h-5"
+            value="kid"
+            {...register('gender', { required: 'Please choose type' })}
+          />
           <img
             width="20"
             height="20"

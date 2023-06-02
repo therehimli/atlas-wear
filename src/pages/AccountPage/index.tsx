@@ -1,19 +1,16 @@
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { AiOutlineProfile } from 'react-icons/ai'
 import { MdOutlineSell, MdFavoriteBorder } from 'react-icons/md'
+import { useEffect, useState } from 'react'
 
 import useUserLogin from '@/store/useUserLogin'
-import * as api from '@/api/users'
 import Accommodations from './components/Accommodations'
 import ProfileSettings from './components/ProfileSettings'
+import Favorites from './components/Favorites'
 
 const AccountPage = () => {
-  const { userLogin, setUserLogin, ready } = useUserLogin()
+  const { userLogin } = useUserLogin()
   let { subpage } = useParams()
-
-  if (!userLogin.email && ready) {
-    return <Navigate to="/" />
-  }
 
   const linkClasses = (type: string = 'profile') => {
     let classes = 'py-2 px-6 flex items-center rounded-full '
@@ -31,10 +28,7 @@ const AccountPage = () => {
     return classes
   }
 
-  const logOut = async () => {
-    await api.userLogOut()
-    setUserLogin({ email: '', password: '', name: '' })
-  }
+  if (!userLogin.email) return <Navigate to="/" />
 
   return (
     <div className="flex flex-col items-center">
@@ -55,8 +49,9 @@ const AccountPage = () => {
           <div className="ml-2">Мои объявления</div>
         </Link>
       </nav>
-      {subpage === 'profile' && <ProfileSettings logOut={logOut} />}
+      {subpage === 'profile' && <ProfileSettings />}
       {subpage === 'accommodations' && <Accommodations />}
+      {subpage === 'favorites' && <Favorites />}
     </div>
   )
 }

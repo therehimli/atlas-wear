@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import {
+  Control,
   Controller,
   FieldErrors,
   FieldValues,
@@ -15,12 +16,12 @@ import {
 } from '@/data/listData'
 import CustomSelect from './CustomSelect'
 import Input from '@/UI/Input'
+import { IColorsList } from '@/types/listTypes'
 
 interface MainInfoProps {
   register: UseFormRegister<FieldValues>
   errors?: FieldErrors
-  watch: any
-  control: any
+  control: Control<FieldValues>
 }
 
 const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
@@ -121,7 +122,7 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
         control={control}
         defaultValue="Please select something"
         name="sizes"
-        render={({ field: { onChange, value, reset } }: any) => (
+        render={({ field: { onChange, value } }: any) => (
           <CustomSelect
             placeholder="Выберите размеры"
             options={sizeList}
@@ -142,7 +143,7 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
             onChange={onChange}
             value={value}
             isMulti={true}
-            formatOptionLabel={(option: any) => (
+            formatOptionLabel={(option: IColorsList) => (
               <div
                 className="
           flex justify-between items-center cursor-pointer gap-1"

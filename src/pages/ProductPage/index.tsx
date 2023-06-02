@@ -1,32 +1,67 @@
 import { useParams } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
 
-import * as api from '@/api/products'
-import { Product } from '@/types/productTypes'
-import CategoryTop from './CategoryTop'
-import ProductImages from './ProductImages'
-import ProductInfo from './ProductInfo'
-import ProductCard from './ProductCard'
-import ProductDescription from './ProductDescription'
+import { getProductHandler } from '@/api/products'
+import CategoryTop from './components/CategoryTop'
+import ProductImages from './components/ProductImages'
+import ProductInfo from './components/ProductInfo'
+import ProductCard from './components/ProductCard'
+import ProductDescription from './components/ProductDescription'
+import { getCommentsHandler, addCommentHandler } from '@/api/comments'
+import ProductComment from './components/ProductComment'
+import CommentsSection from './components/CommentsSection'
+import { useKeyDown } from '@/hooks/useKeyDown'
 
 const ProductPage = () => {
   const { id } = useParams()
-  const [product, setProduct] = useState<Product>()
+  const client = useQueryClient()
+  const [comment, setComment] = useState('')
+
   const descriptionRef = useRef<HTMLDivElement>()
+  const reviewsRef = useRef<HTMLDivElement>()
+  const commentButtonRef = useRef<HTMLDivElement | null>()
 
-  useEffect(() => {
-    if (!id) return
+  const scrollToDescription = () => descriptionRef?.current?.scrollIntoView()
+  const scrollToReviews = () => reviewsRef?.current?.scrollIntoView()
 
-    const getProductHandler = async () => {
-      const { data } = await api.getProduct(id)
-      setProduct(data)
+  const sendCommentHandler = async () => {
+    addComment({ id, comment })
+
+    setComment('')
+  }
+
+  const [productQuery, commentsQuery] = useQueries({
+    queries: [
+      {
+        queryKey: ['product'],
+        queryFn: () => getProductHandler(id!),
+      },
+      {
+        queryKey: ['comments'],
+        queryFn: () => getCommentsHandler(id!),
+      },
+    ],
+  })
+
+  const { mutate: addComment } = useMutation({
+    mutationFn: addCommentHandler,
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ['comments'] })
+    },
+  })
+
+  useKeyDown(() => {
+    if (commentButtonRef.current) {
+      commentButtonRef.current.click()
     }
-    getProductHandler()
-  }, [])
+  }, ['Enter'])
 
-  if (!product) return <div>Loading...</div>
+  const { data: product } = productQuery
+  const { data: comments } = commentsQuery
 
-  const executeScroll = () => descriptionRef?.current?.scrollIntoView()
+  if (productQuery.isLoading) return <div>Loading...</div>
+  if (commentsQuery.isLoading) return <div>Loading...</div>
 
   return (
     <div className="flex flex-col gap-5 justify-center">
@@ -35,12 +70,23 @@ const ProductPage = () => {
         <div className="flex flex-col items-start gap-5">
           <div className="flex items-start gap-10">
             <ProductImages product={product} />
-            <ProductInfo executeScroll={executeScroll} product={product} />
+            <ProductInfo
+              scrollToDescription={scrollToDescription}
+              scrollToReviews={scrollToReviews}
+              product={product}
+            />
           </div>
           <ProductDescription
             descriptionRef={descriptionRef}
             product={product}
           />
+          <ProductComment
+            comment={comment}
+            setComment={setComment}
+            onSubmit={sendCommentHandler}
+            commentButtonRef={commentButtonRef}
+          />
+          <CommentsSection reviewsRef={reviewsRef} comments={comments} />
         </div>
         <ProductCard product={product} />
       </div>

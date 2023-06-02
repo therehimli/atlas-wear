@@ -22,7 +22,24 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
         </div>
       </div>
       <div className="rounded-xl border-2 shadow-lg flex flex-col gap-1 py-3 px-4 ">
-        <div className="text-[18px] font-semibold">Свяжись с владельцом</div>
+        <div className="text-[18px] font-semibold flex flex-col  gap-2">
+          <div className="p-1 border-2 rounded-full flex gap-2">
+            <img
+              className="w-[40px] h-[40px] rounded-full border-2"
+              src={`http://localhost:4000/uploads/images/${product.owner.avatar}`}
+            />
+            <div className="flex flex-col">
+              <p className="text-[15px] text-sky-400 font-[10px]">
+                {product.owner.name}
+              </p>
+              <p className="text-[12px] text-neutral-600 font-thin">
+                {product.owner.email}
+              </p>
+            </div>
+          </div>
+
+          <div>Свяжись с владельцом</div>
+        </div>
         <div className="flex flex-col gap-1">
           <div className="border-b-[0.1px] border-black border-solid flex gap-2 items-center">
             <AiOutlineMail />

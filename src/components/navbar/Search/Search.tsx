@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { AiOutlineSearch } from 'react-icons/ai'
+import { useNavigate } from 'react-router-dom'
 
 import useSearchState from '@/store/useSearchState'
 import useLocalStorage from '@/hooks/useLocalStorage'
-import { useNavigate } from 'react-router-dom'
 
 const Search = () => {
   library.add(faX)

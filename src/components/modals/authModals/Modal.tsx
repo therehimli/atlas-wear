@@ -1,8 +1,8 @@
 import { createPortal } from 'react-dom'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
+
 import useToggleModalStore from '@/store/useModalToggle'
 
 interface IModalProps {

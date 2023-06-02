@@ -13,7 +13,7 @@ import Button from '@/UI/Button'
 import SocialButton from '@/UI/SocialButton'
 import useToggleModalStore from '@/store/useModalToggle'
 import useUserLogin from '@/store/useUserLogin'
-import * as api from '@/api/users'
+import { userLoginHandler } from '@/api/users'
 import { useKeyDown } from '@/hooks/useKeyDown'
 
 interface LoginBodyProps {
@@ -42,7 +42,7 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
   const loginHandler = async (data: FieldValues) => {
     const { email, password } = data
     try {
-      const { data } = await api.userLogin(email, password)
+      const { data } = await userLoginHandler(email, password)
       setUserLogin(data)
 
       reset()

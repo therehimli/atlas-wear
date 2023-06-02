@@ -1,18 +1,24 @@
 import { SlCloudUpload } from 'react-icons/sl'
-
-import { ChangeEvent, FC, useState } from 'react'
-import Button from '@/UI/Button'
-import * as api from '@/api/accommodations'
 import { BiTrash } from 'react-icons/bi'
-import { useWatch } from 'react-hook-form'
+import {
+  useWatch,
+  Control,
+  FieldValues,
+  UseFormSetValue,
+} from 'react-hook-form'
+import { ChangeEvent, DragEvent, FC, useState } from 'react'
+
+import Button from '@/UI/Button'
+import {
+  postProductPhotoLinkHandler,
+  uploadProductPhotoHandler,
+} from '@/api/accommodations'
 
 interface PhotosInfoProps {
-  watch: any
   setPhotoLink: (photoLink: string) => void
   photoLink: string
-  control: any
-  setValue: any
-  getValues: any
+  control: Control<FieldValues>
+  setValue: UseFormSetValue<FieldValues>
 }
 
 const PhotosInfo: FC<PhotosInfoProps> = ({
@@ -21,15 +27,11 @@ const PhotosInfo: FC<PhotosInfoProps> = ({
   setValue,
   control,
 }) => {
-  const photosWatch = useWatch({
-    control,
-    name: 'photos',
-  })
-
+  const photosWatch = useWatch({ control, name: 'photos' })
   const [currentCard, setCurrentCard] = useState('')
 
   const addPhotoLinkHandler = async () => {
-    const { data: filename } = await api.postPhotoLink(photoLink)
+    const { data: filename } = await postProductPhotoLinkHandler(photoLink)
     setValue('photos', [...photosWatch, filename])
 
     setPhotoLink('')
@@ -43,7 +45,7 @@ const PhotosInfo: FC<PhotosInfoProps> = ({
       data.append('photos', files![i])
     }
 
-    const { data: filenames } = await api.uploadPhoto(data)
+    const { data: filenames } = await uploadProductPhotoHandler(data)
     setValue('photos', [...photosWatch, ...filenames])
 
     setPhotoLink('')
@@ -56,8 +58,9 @@ const PhotosInfo: FC<PhotosInfoProps> = ({
     )
   }
 
-  const dropHandler = (e: any, link: any) => {
+  const dropHandler = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault()
+
     setValue('photos', [
       currentCard,
       ...photosWatch.filter((photo: string) => photo !== currentCard),
@@ -103,12 +106,12 @@ const PhotosInfo: FC<PhotosInfoProps> = ({
             onDragOver={(e) => {
               e.preventDefault()
             }}
-            onDrop={(e) => dropHandler(e, link)}
+            onDrop={(e) => dropHandler(e)}
             key={i}
             className="w-[200px] h-[200px] relative cursor-grab"
           >
             <img
-              src={'http://localhost:4000/uploads/' + link}
+              src={'http://localhost:4000/uploads/images/' + link}
               className="w-full h-full rounded-2xl border-2 object-cover shadow-xl"
             />
             <BiTrash

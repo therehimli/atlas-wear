@@ -1,6 +1,7 @@
+import { ownerType } from '@/types/ownerType'
 import { authInstance } from '.'
 
-export async function userRegister(
+export async function userRegisterHandler(
   email: string,
   password: string,
   name: string
@@ -15,7 +16,7 @@ export async function userRegister(
   })
 }
 
-export async function userLogin(email: string, password: string) {
+export async function userLoginHandler(email: string, password: string) {
   return authInstance('/login', {
     method: 'POST',
     data: {
@@ -25,14 +26,20 @@ export async function userLogin(email: string, password: string) {
   })
 }
 
-export async function userProfile() {
-  return authInstance('/profile', {
+export async function userProfileHandler() {
+  const { data } = await authInstance('/profile', {
     method: 'GET',
   })
+  return data
 }
 
-export async function userLogOut() {
+export async function userLogOutHandler() {
   return authInstance('/logout', {
     method: 'POST',
   })
+}
+
+export async function changeAvatarHandler(dataFile: Partial<ownerType>) {
+  const { data } = await authInstance.post('/change-avatar', dataFile)
+  return data
 }

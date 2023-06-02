@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
+import { FieldValues, UseFormRegister } from 'react-hook-form'
 
 interface StateInfoProps {
   register: UseFormRegister<FieldValues>

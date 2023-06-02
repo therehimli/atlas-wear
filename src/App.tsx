@@ -1,4 +1,5 @@
 import { FC, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 
 import RegisterModal from '@/components/modals/authModals/registerModal/RegisterModal'
 import LoginModal from '@/components/modals/authModals/loginModal/LoginModal'
@@ -7,7 +8,7 @@ import Layout from '@/layout/Layout'
 import MainRoutes from '@/routes/Routes'
 import useToggleModalStore from './store/useModalToggle'
 import useUserLogin from './store/useUserLogin'
-import * as api from '@/api/users'
+import { userProfileHandler } from '@/api/users'
 import './App.css'
 
 enum modalToggle {
@@ -19,21 +20,15 @@ enum modalToggle {
 
 const App: FC = () => {
   const toggleModal = useToggleModalStore()
-  const { userLogin, setUserLogin, ready, setReady } = useUserLogin()
+  const { setUserLogin } = useUserLogin()
+
+  const { data: user, isLoading } = useQuery(['users'], userProfileHandler)
 
   useEffect(() => {
-    const profileHandler = async () => {
-      try {
-        if (!userLogin.email) {
-          const { data } = await api.userProfile()
+    if (isLoading) return
 
-          setUserLogin(data)
-          setReady(true)
-        }
-      } catch (error) {}
-    }
-    profileHandler()
-  }, [])
+    setUserLogin(user)
+  }, [user])
 
   return (
     <div className="App mb-5 relative">

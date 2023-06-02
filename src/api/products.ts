@@ -1,9 +1,11 @@
 import { productInstance } from '.'
 
-export async function getProducts() {
-  return productInstance.get(`/products`)
+export async function getProductsHandler() {
+  const { data } = await productInstance.get(`/products`)
+  return data
 }
 
-export async function getProduct(id: string) {
-  return productInstance.get(`/products/${id}`)
+export async function getProductHandler(id: string) {
+  const { data } = await productInstance.get(`/products/${id}`)
+  return data
 }

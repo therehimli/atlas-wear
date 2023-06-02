@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import useToggleModalStore from '@/store/useModalToggle'
-import { userRegister } from '@/api/users'
+import { userRegisterHandler } from '@/api/users'
 import { useKeyDown } from '@/hooks/useKeyDown'
 import Input from '@/UI/Input'
 import Button from '@/UI/Button'
@@ -39,8 +39,9 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
 
   const registerHandler = async (data: FieldValues) => {
     const { email, password, name } = data
+
     try {
-      await userRegister(email, password, name)
+      await userRegisterHandler(email, password, name)
 
       reset()
       toggleModal.toggleButton(0)

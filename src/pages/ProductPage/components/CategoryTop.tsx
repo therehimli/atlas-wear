@@ -18,7 +18,7 @@ const CategoryTop: FC<CategoryTopProps> = ({ product }) => {
       </Link>
       <div className="font-[bold] text-[17px] mt-[2.5px]">•</div>
       <div>
-        {product.gender.charAt(0).toLowerCase() + product.gender.slice(1)}{' '}
+        {product.gender.charAt(0).toLowerCase() + product.gender.slice(1)}
         одежда
       </div>
     </div>

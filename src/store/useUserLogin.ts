@@ -3,14 +3,14 @@ import { create } from 'zustand'
 type userType = {
   email: string
   password: string
-  name: ''
+  name: string
+  _id: string
+  avatar: string
 }
 
 interface LoginProps {
   userLogin: userType
-  ready: boolean
   setUserLogin: (newUser: userType) => void
-  setReady: (ready: boolean) => void
 }
 
 const useUserLogin = create<LoginProps>((set) => ({
@@ -18,10 +18,10 @@ const useUserLogin = create<LoginProps>((set) => ({
     email: '',
     password: '',
     name: '',
+    _id: '',
+    avatar: '',
   },
-  ready: false,
   setUserLogin: (newUser) => set({ userLogin: newUser }),
-  setReady: (ready) => set({ ready }),
 }))
 
 export default useUserLogin

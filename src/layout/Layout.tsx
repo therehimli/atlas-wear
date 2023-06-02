@@ -10,7 +10,7 @@ const Layout: React.FC<ILayoutProps> = ({ children }) => {
       <header className="sticky top-0 z-50">
         <Navbar />
       </header>
-      <main className="flex-1 ">{children}</main>
+      <main className="flex-1">{children}</main>
     </div>
   )
 }

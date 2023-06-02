@@ -1,21 +1,75 @@
-import { FC } from 'react'
-import { RxAvatar } from 'react-icons/rx'
+import { FC, ChangeEvent } from 'react'
 import { MdOutlineModeEditOutline } from 'react-icons/md'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import useUserLogin from '@/store/useUserLogin'
+import { uploadProductPhotoHandler } from '@/api/accommodations'
+import { changeAvatarHandler, userLogOutHandler } from '@/api/users'
 
-interface ProfileSettingsProps {
-  logOut: () => void
-}
+const ProfileSettings: FC = ({}) => {
+  const { userLogin, setUserLogin } = useUserLogin()
+  const { name, email, avatar } = userLogin
+  const client = useQueryClient()
 
-const ProfileSettings: FC<ProfileSettingsProps> = ({ logOut }) => {
-  const { userLogin } = useUserLogin()
-  const { name, email } = userLogin
+  const { mutate: changeAvatar } = useMutation({
+    mutationFn: changeAvatarHandler,
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ['users'] })
+    },
+  })
+
+  const uploadPhotoHandler = async (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    const data = new FormData()
+
+    for (let i = 0; i < files!.length; i++) {
+      data.append('photos', files![i])
+    }
+
+    const { data: filenames } = await uploadProductPhotoHandler(data)
+
+    const newData = {
+      password: userLogin.password,
+      email: userLogin.email,
+      name: userLogin.name,
+      avatar: filenames[0],
+      _id: userLogin._id,
+    }
+
+    changeAvatar(newData)
+  }
+
+  const logOut = async () => {
+    await userLogOutHandler()
+    setUserLogin({ email: '', password: '', name: '', _id: '', avatar: '' })
+  }
 
   return (
     <div className="flex flex-col items-center gap-5 mb-5">
-      <RxAvatar size={150} />
+      <div className="relative w-[150px] h-[150px]">
+        {avatar ? (
+          <img
+            src={`http://localhost:4000/uploads/images/${avatar}`}
+            className="w-full h-full rounded-full"
+          />
+        ) : (
+          <img
+            src="http://localhost:4000/uploads/images/defaultuser.jpeg"
+            alt=""
+            className="w-full h-full rounded-full"
+          />
+        )}
 
+        <label className="absolute left-[110px] top-[115px] rounded-full bg-neutral-50 p-2">
+          <input
+            type="file"
+            className="hidden"
+            multiple
+            onChange={uploadPhotoHandler}
+          />
+          <MdOutlineModeEditOutline size={20} cursor="pointer" />
+        </label>
+      </div>
       <div className="grid grid-cols-2 gap-5">
         <div className="flex items-center justify-between gap-3 border-[0.3px] border-solid border-neutral-400 p-3 rounded-full">
           <div className="flex items-center gap-1">
@@ -29,7 +83,6 @@ const ProfileSettings: FC<ProfileSettingsProps> = ({ logOut }) => {
             <div>Почта: </div>
             <span className="font-semibold">{email}</span>
           </div>
-          <MdOutlineModeEditOutline size={20} cursor="pointer" />
         </div>
       </div>
       <button

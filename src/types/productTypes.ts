@@ -1,3 +1,5 @@
+import { ownerType } from './ownerType'
+
 export type Product = {
   _id: string
   photos: string[]
@@ -8,9 +10,11 @@ export type Product = {
   gender: string
   contactNumber: number
   contactEmail: string
-  owner: string
+  owner: ownerType
   colors: string[]
   sizes: string[]
   state: string
+  viewsCount: number
   delivery: string
+  favorite: boolean
 }
