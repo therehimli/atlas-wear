@@ -1,15 +1,12 @@
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import { AiOutlineProfile } from 'react-icons/ai'
 import { MdOutlineSell, MdFavoriteBorder } from 'react-icons/md'
-import { useEffect, useState } from 'react'
 
-import useUserLogin from '@/store/useUserLogin'
 import Accommodations from './components/Accommodations'
 import ProfileSettings from './components/ProfileSettings'
 import Favorites from './components/Favorites'
 
 const AccountPage = () => {
-  const { userLogin } = useUserLogin()
   let { subpage } = useParams()
 
   const linkClasses = (type: string = 'profile') => {
@@ -28,7 +25,7 @@ const AccountPage = () => {
     return classes
   }
 
-  if (!userLogin.email) return <Navigate to="/" />
+  if (!localStorage.getItem('token')) return <Navigate to="/" />
 
   return (
     <div className="flex flex-col items-center">

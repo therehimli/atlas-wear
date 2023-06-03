@@ -1,6 +1,7 @@
 import { AiOutlinePlus } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { PuffLoader } from 'react-spinners'
 
 import Button from '../UI/Button'
 import {
@@ -12,7 +13,11 @@ import { Product } from '@/types/productTypes'
 const Accommodations = () => {
   const client = useQueryClient()
 
-  const { data: accommodations, isSuccess } = useQuery({
+  const {
+    data: accommodations,
+    isSuccess,
+    isLoading,
+  } = useQuery({
     queryFn: getAccommodationsHandler,
     queryKey: ['accommodations'],
   })
@@ -25,6 +30,8 @@ const Accommodations = () => {
       })
     },
   })
+
+  if (isLoading) return <PuffLoader color="#36d7b7" />
 
   return (
     <div className="flex w-full flex-col gap-10">

@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
+import { PropagateLoader, PuffLoader } from 'react-spinners'
 
 import { getProductHandler } from '@/api/products'
 import CategoryTop from './components/CategoryTop'
@@ -12,11 +13,15 @@ import { getCommentsHandler, addCommentHandler } from '@/api/comments'
 import ProductComment from './components/ProductComment'
 import CommentsSection from './components/CommentsSection'
 import { useKeyDown } from '@/hooks/useKeyDown'
+import useUserLogin from '@/store/useUserLogin'
+import useToggleModalStore from '@/store/useModalToggle'
 
 const ProductPage = () => {
   const { id } = useParams()
   const client = useQueryClient()
   const [comment, setComment] = useState('')
+  const { userLogin } = useUserLogin()
+  const { toggleButton } = useToggleModalStore()
 
   const descriptionRef = useRef<HTMLDivElement>()
   const reviewsRef = useRef<HTMLDivElement>()
@@ -26,8 +31,12 @@ const ProductPage = () => {
   const scrollToReviews = () => reviewsRef?.current?.scrollIntoView()
 
   const sendCommentHandler = async () => {
-    addComment({ id, comment })
+    if (!userLogin.email) {
+      toggleButton(1)
+      return null
+    }
 
+    addComment({ id, comment })
     setComment('')
   }
 
@@ -60,8 +69,13 @@ const ProductPage = () => {
   const { data: product } = productQuery
   const { data: comments } = commentsQuery
 
-  if (productQuery.isLoading) return <div>Loading...</div>
-  if (commentsQuery.isLoading) return <div>Loading...</div>
+  if (productQuery.isLoading)
+    return (
+      <div className="flex items-center justify-center mt-32 mb-64">
+        <PuffLoader size={100} color="#36d7b7" />
+      </div>
+    )
+  if (commentsQuery.isLoading) return
 
   return (
     <div className="flex flex-col gap-5 justify-center">
@@ -74,6 +88,7 @@ const ProductPage = () => {
               scrollToDescription={scrollToDescription}
               scrollToReviews={scrollToReviews}
               product={product}
+              comments={comments}
             />
           </div>
           <ProductDescription
@@ -88,6 +103,7 @@ const ProductPage = () => {
           />
           <CommentsSection reviewsRef={reviewsRef} comments={comments} />
         </div>
+
         <ProductCard product={product} />
       </div>
     </div>

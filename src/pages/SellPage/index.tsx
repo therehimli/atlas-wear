@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { useForm, FieldValues } from 'react-hook-form'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import useUserLogin from '@/store/useUserLogin'
 import MainInfo from './components/MainInfo'
 import PhotosInfo from './components/PhotosInfo'
 import StateInfo from './components/StateInfo'
@@ -17,11 +16,9 @@ import {
 } from '@/api/accommodations'
 
 const SellPage = () => {
-  const { userLogin } = useUserLogin()
   const [photoLink, setPhotoLink] = useState('')
   const [redirect, setRedirect] = useState(false)
   const { id } = useParams()
-  const navigate = useNavigate()
   const client = useQueryClient()
 
   const {
@@ -42,6 +39,7 @@ const SellPage = () => {
       contactNumber: null,
       state: '',
       delivery: '',
+      city: '',
       colors: [],
       sizes: [],
       photos: [],
@@ -91,7 +89,7 @@ const SellPage = () => {
     return <Navigate to="/account/accommodations" />
   }
 
-  if (!userLogin.email) return <Navigate to="/" />
+  if (!localStorage.getItem('token')) return <Navigate to="/" />
 
   return (
     <form

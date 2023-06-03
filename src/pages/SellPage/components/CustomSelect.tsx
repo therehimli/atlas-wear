@@ -32,6 +32,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
         isMulti={isMulti}
         styles={styles}
         placeholder={placeholder}
+        isSearchable={true}
         value={options?.find((c: any) => c.value === value)}
         onChange={(e: any) =>
           e.value ? onChange!(e.value) : onChange!(e.map((c: any) => c.value))

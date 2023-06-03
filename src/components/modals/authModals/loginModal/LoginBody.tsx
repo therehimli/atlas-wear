@@ -44,6 +44,7 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
     try {
       const { data } = await userLoginHandler(email, password)
       setUserLogin(data)
+      localStorage.setItem('token', data.email)
 
       reset()
       toggleButton(0)
@@ -120,7 +121,7 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
           hoverbgcolor="hover:bg-orange-600"
           type="submit"
         >
-          <div ref={buttonRef}>Create</div>
+          <div ref={buttonRef}>Sign up</div>
         </Button>
       </form>
 

@@ -84,26 +84,35 @@ const Item: FC<ItemProps> = ({ product }) => {
         </Link>
         <div>
           {!userLogin.email ? (
-            <AiOutlineHeart
-              color="red"
-              size={30}
-              cursor="pointer"
-              onClick={() => toggleButton(1)}
-            />
+            <div className="hover:bg-red-200 rounded-full p-1">
+              <AiOutlineHeart
+                color="red"
+                size={20}
+                className="text-center"
+                cursor="pointer"
+                onClick={() => toggleButton(1)}
+              />
+            </div>
           ) : product.favorite ? (
-            <AiFillHeart
-              color="red"
-              size={30}
-              cursor="pointer"
-              onClick={() => deleteFavorite(product._id)}
-            />
+            <div className="bg-red-200 rounded-full p-1">
+              <AiFillHeart
+                color="red"
+                size={25}
+                className="text-center"
+                cursor="pointer"
+                onClick={() => deleteFavorite(product._id)}
+              />
+            </div>
           ) : (
-            <AiOutlineHeart
-              color="red"
-              size={30}
-              cursor="pointer"
-              onClick={() => addFavorite(product._id)}
-            />
+            <div className="hover:bg-red-200 rounded-full p-1">
+              <AiOutlineHeart
+                color="red"
+                size={20}
+                className="text-center"
+                cursor="pointer"
+                onClick={() => addFavorite(product._id)}
+              />
+            </div>
           )}
         </div>
       </div>

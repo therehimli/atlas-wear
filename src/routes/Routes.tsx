@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { PuffLoader } from 'react-spinners'
 
 import HomePage from '@/pages/HomePage'
 const NotFound = lazy(() => import('@/pages/404'))
@@ -10,7 +11,13 @@ const SellPage = lazy(() => import('@/pages/SellPage'))
 
 const MainRoutes = () => {
   return (
-    <Suspense fallback={<h1>Loading...</h1>}>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center mt-[20%]">
+          <PuffLoader size={100} color="#36d7b7" />
+        </div>
+      }
+    >
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/search" element={<SearchPage />} />

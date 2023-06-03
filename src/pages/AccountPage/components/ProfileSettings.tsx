@@ -42,6 +42,7 @@ const ProfileSettings: FC = ({}) => {
   const logOut = async () => {
     await userLogOutHandler()
     setUserLogin({ email: '', password: '', name: '', _id: '', avatar: '' })
+    localStorage.removeItem('token')
   }
 
   return (

@@ -23,11 +23,11 @@ const StateInfo: FC<StateInfoProps> = ({ register }) => {
         <label className="flex items-center gap-2 p-2 border-2 rounded-full">
           <input
             type="radio"
-            value="Ношенное"
+            value="Б/у"
             className="w-5 h-5"
             {...register('state')}
           />
-          <div className="text-center text-[18px]">Ношенное</div>
+          <div className="text-center text-[18px]">Б/у</div>
         </label>
       </div>
     </div>

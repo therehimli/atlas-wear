@@ -17,4 +17,7 @@ export type Product = {
   viewsCount: number
   delivery: string
   favorite: boolean
+  city: string
+  createdAt: string
+  updatedAt: string
 }

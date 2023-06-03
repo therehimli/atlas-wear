@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import useToggleModalStore from '@/store/useModalToggle'
 import useUserLogin from '@/store/useUserLogin'
 import { userLogOutHandler } from '@/api/users'
+import './menu.css'
 
 const Menu: FC = memo(() => {
   const [toggleProfile, setToggleProfile] = useState(true)
@@ -17,6 +18,7 @@ const Menu: FC = memo(() => {
   const logOut = async () => {
     await userLogOutHandler()
     setUserLogin({ email: '', password: '', name: '', avatar: '', _id: '' })
+    localStorage.removeItem('token')
   }
 
   const onSellHandler = () => {
@@ -30,21 +32,31 @@ const Menu: FC = memo(() => {
   return (
     <div className="flex gap-5 items-center">
       <div
-        className="flex flex-col items-center mr-3 cursor-pointer text-[13px]"
+        className="flex gap-1 items-center mr-3 cursor-pointer text-[15px] hover-underline-animation"
         onClick={onSellHandler}
       >
-        <MdOutlineSell cursor="pointer" size={27} />
-        <p>Sell</p>
+        <MdOutlineSell cursor="pointer" size={20} />
+        Sell
       </div>
 
       {userLogin.email ? (
         <div>
           <div
             onClick={() => setToggleProfile(!toggleProfile)}
-            className="flex flex-col items-center mr-3 cursor-pointer text-[13px]"
+            className="flex gap-2 items-center mr-3 cursor-pointer text-[15px] hover-underline-animation"
           >
-            <AiOutlineUser size={27} />
-            profile
+            {userLogin.email ? (
+              <div className="w-[30px] h-[30px]">
+                <img
+                  src={`http://localhost:4000/uploads/images/${userLogin.avatar}`}
+                  alt="avatar"
+                  className="rounded-full w-full h-full"
+                />
+              </div>
+            ) : (
+              <AiOutlineUser size={20} />
+            )}
+            Profile
           </div>
           <ul
             className={`${
@@ -71,10 +83,10 @@ const Menu: FC = memo(() => {
       ) : (
         <div
           onClick={() => toggleButton(1)}
-          className="flex flex-col items-center mr-3 cursor-pointer"
+          className="flex gap-1 items-center mr-3 cursor-pointer hover-underline-animation"
         >
-          <FiUser size={25} />
-          <div className="text-[13px]">Sign in</div>
+          <FiUser size={20} />
+          <div className="text-[15px]">Sign in</div>
         </div>
       )}
 

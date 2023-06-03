@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { PuffLoader } from 'react-spinners'
 
 import { getFavoritesHandler } from '@/api/favorites'
 import { FavoriteType } from '@/types/favoriteTypes'
@@ -9,7 +10,7 @@ const Favorites = () => {
     queryKey: ['favorites'],
   })
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <PuffLoader color="#36d7b7" />
 
   return (
     <div className="flex w-full flex-col gap-10">

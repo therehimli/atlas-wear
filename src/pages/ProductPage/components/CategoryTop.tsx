@@ -12,14 +12,14 @@ const CategoryTop: FC<CategoryTopProps> = ({ product }) => {
       <Link className="text-blue-400 hover:text-blue-700" to="/">
         главная
       </Link>
-      <div className="font-[bold] text-[17px] mt-[2.5px]">•</div>
+      <div className="font-[bold] text-[17px] mt-[2.5px]">/</div>
       <Link className="text-blue-400 hover:text-blue-700" to="/search">
         {product.category}
       </Link>
-      <div className="font-[bold] text-[17px] mt-[2.5px]">•</div>
+      <div className="font-[bold] text-[17px] mt-[2.5px]">/</div>
       <div>
         {product.gender.charAt(0).toLowerCase() + product.gender.slice(1)}
-        одежда
+        <span className="ml-1">одежда</span>
       </div>
     </div>
   )

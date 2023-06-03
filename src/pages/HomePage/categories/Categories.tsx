@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import useCategoryItem from '@/store/useCategoryItem'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import { categoryList } from '@/data/listData'
+import './categories.css'
 
 const Categories = () => {
   const [storagedCategory, setStoragedCategory] = useLocalStorage(
@@ -27,7 +28,7 @@ const Categories = () => {
         {categoryList.map((category) => (
           <div
             key={category.id}
-            className="py-3 rounded-2xl hover:text-red-900 hover:font-bold cursor-pointer"
+            className="py-3 rounded-2x cursor-pointer hover-underline-animation "
             onClick={() => setStoragedCategory(category.value)}
           >
             {category.label}

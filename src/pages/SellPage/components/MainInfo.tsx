@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import {
   Control,
   Controller,
@@ -13,10 +13,12 @@ import {
   categoryList,
   colorsList,
   deliveryMethodList,
+  cityList,
 } from '@/data/listData'
 import CustomSelect from './CustomSelect'
 import Input from '@/UI/Input'
 import { IColorsList } from '@/types/listTypes'
+import axios from 'axios'
 
 interface MainInfoProps {
   register: UseFormRegister<FieldValues>
@@ -190,6 +192,29 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
             {errors?.category && errors.category.type === 'required' && (
               <p className="text-red-600 self-start text-[14px] ml-4">
                 Пожалуйста выберите категорию
+              </p>
+            )}
+          </div>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="city"
+        rules={{ required: true }}
+        render={({ field: { onChange, value } }: any) => (
+          <div className="w-full">
+            <CustomSelect
+              placeholder="Выберите область"
+              options={cityList}
+              styles={selectStyles}
+              isMulti={false}
+              onChange={onChange}
+              value={value}
+            />
+            {errors?.city && errors.city.type === 'required' && (
+              <p className="text-red-600 self-start text-[14px] ml-4">
+                Пожалуйста выберите область
               </p>
             )}
           </div>

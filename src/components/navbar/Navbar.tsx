@@ -7,7 +7,7 @@ import Menu from './Menu/Menu'
 
 const Navbar = () => {
   return (
-    <header className="flex items-center bg-white p-2">
+    <header className="flex items-center bg-white py-2 px-20">
       <nav className="w-full relative">
         <div className="hidden sm:flex justify-between items-center">
           <div className="flex items-center gap-5">

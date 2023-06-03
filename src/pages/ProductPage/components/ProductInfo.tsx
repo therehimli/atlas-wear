@@ -2,20 +2,24 @@ import { FC, MouseEventHandler, useState } from 'react'
 import { AiOutlineEye } from 'react-icons/ai'
 
 import { Product } from '@/types/productTypes'
+import { commentType } from '@/types/commentType'
 
 interface ProductInfoProps {
   product: Product
   scrollToReviews: MouseEventHandler<HTMLParagraphElement>
   scrollToDescription: MouseEventHandler<HTMLParagraphElement>
+  comments: commentType[]
 }
 
 const ProductInfo: FC<ProductInfoProps> = ({
   product,
   scrollToReviews,
   scrollToDescription,
+  comments,
 }) => {
-  const [sizeIndex, setSizeIndex] = useState(0)
   const [colorIndex, setColorIndex] = useState(0)
+  const [activeSize, setActiveSize] = useState('')
+  const [activeColor, setActiveColor] = useState('')
 
   return (
     <div className="flex items-start justify-center flex-col gap-4 min-w-[400px]">
@@ -39,7 +43,7 @@ const ProductInfo: FC<ProductInfoProps> = ({
             Описание
           </p>
           <p onClick={scrollToReviews} className="underline cursor-pointer">
-            Отзывы
+            Отзывы ({comments.length})
           </p>
         </div>
       </div>
@@ -47,30 +51,37 @@ const ProductInfo: FC<ProductInfoProps> = ({
       <div className="flex flex-col gap-2">
         {!!product.colors.length && (
           <div className="flex flex-col gap-2 border-b-[1px] pb-1">
-            <div>Цвет:</div>
+            <div>
+              <span>Цвет: </span>
+              {activeColor.includes('0')
+                ? activeColor.slice(3, -4)
+                : activeColor.slice(3)}
+            </div>
             <div className="grid grid-cols-4 gap-3">
               {product.colors.map((color, i) => (
                 <div
-                  onClick={() => setColorIndex(i)}
+                  onClick={() => setActiveColor(color)}
                   key={color}
                   className={`py-1 ${
-                    i === colorIndex ? 'border-blue-400' : 'border-neutral-200'
+                    color === color ? 'border-blue-400' : 'border-neutral-200'
                   }  border-[2px] border-solid font-semibold rounded-full w-[40px] h-[40px] cursor-pointer text-center ${color}`}
                 ></div>
               ))}
             </div>
           </div>
         )}
-        {!!product.colors.length && (
+        {!!product.sizes.length && (
           <>
-            <div>Размер:</div>
+            <div>Размер: {activeSize.toUpperCase()}</div>
             <div className="grid grid-cols-4 gap-2 border-b-[1px] pb-1">
               {product.sizes.map((size, i) => (
                 <div
-                  onClick={() => setSizeIndex(i)}
+                  onClick={() => setActiveSize(size)}
                   key={size}
                   className={`p-1 ${
-                    i === sizeIndex ? 'border-blue-400' : 'border-neutral-200'
+                    size === activeSize
+                      ? 'border-blue-400'
+                      : 'border-neutral-200'
                   }  border-[2px] border-solid font-semibold rounded-md text-[15px] cursor-pointer text-center`}
                 >
                   {size.toUpperCase()}
