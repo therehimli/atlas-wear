@@ -45,14 +45,15 @@ const ProfileSettings: FC = ({}) => {
     localStorage.removeItem('token')
   }
 
+  const avatarUrl = avatar?.includes('google')
+    ? avatar
+    : `http://localhost:4000/uploads/images/${avatar}`
+
   return (
     <div className="flex flex-col items-center gap-5 mb-5">
       <div className="relative w-[150px] h-[150px]">
         {avatar ? (
-          <img
-            src={`http://localhost:4000/uploads/images/${avatar}`}
-            className="w-full h-full rounded-full"
-          />
+          <img src={avatarUrl} className="w-full h-full rounded-full" />
         ) : (
           <img
             src="http://localhost:4000/uploads/images/defaultuser.jpeg"

@@ -13,24 +13,20 @@ const Footer = () => {
 
       <div className="mx-6 py-10 text-center md:text-left">
         <div className="flex items-start justify-between px-20">
-          <div className="w-[200px] h-[200px] flex flex-col items-center gap-5">
-            <div className="p-2 rounded-full border-2 bg-neutral-100">
+          <div className="w-[250px] h-[250px] flex flex-col items-center gap-5">
+            <div className="rounded-full border-2 shadow-2xl w-[130px] h-[130px]">
               <img
                 className="w-full h-full rounded-full"
                 src="http://localhost:4000/uploads/images/atlas-logo.png"
-                alt=""
+                alt="logo"
               />
             </div>
-
-            <p className="italic text-[42px] font-semibold underline">
-              Atlas wear
-            </p>
           </div>
           <div className="flex flex-col gap-1">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Social networks
             </h6>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <BsInstagram />
               <Link
                 target="_blank"
@@ -40,7 +36,7 @@ const Footer = () => {
                 Instagram
               </Link>
             </div>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <AiFillGithub />
               <Link
                 target="_blank"
@@ -50,7 +46,7 @@ const Footer = () => {
                 GitHub
               </Link>
             </div>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <BsLinkedin />
               <Link
                 target="_blank"
@@ -60,7 +56,7 @@ const Footer = () => {
                 Linkedin
               </Link>
             </div>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <BsTelegram />
               <Link
                 target="_blank"
@@ -75,7 +71,7 @@ const Footer = () => {
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Useful links
             </h6>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <BiCode />
               <Link
                 target="_blank"
@@ -85,7 +81,7 @@ const Footer = () => {
                 Source
               </Link>
             </div>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <FaHandshake />
               <Link
                 target="_blank"
@@ -95,13 +91,13 @@ const Footer = () => {
                 Cooperation
               </Link>
             </div>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <GrBlog />
               <Link target="_blank" to="#" className="text-black text-[18px]">
                 Blog
               </Link>
             </div>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <GrHelp />
               <Link
                 target="_blank"
@@ -116,13 +112,13 @@ const Footer = () => {
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Contact
             </h6>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <BiHome size={20} />
               <Link target="_blank" to="#!" className="text-black text-[18px]">
                 Orenburg, Russia
               </Link>
             </div>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <MdEmail size={20} />
               <Link
                 target="_blank"
@@ -132,7 +128,7 @@ const Footer = () => {
                 orduxan144@gmail.com
               </Link>
             </div>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <BiPhone size={20} />
               <Link
                 target="_blank"
@@ -142,7 +138,7 @@ const Footer = () => {
                 +994 050 879 73 21
               </Link>
             </div>
-            <div className="flex gap-2 items-center mb-5 hover-underline-animation">
+            <div className="flex gap-2 items-center mb-5 hover:underline">
               <BsWhatsapp />
               <Link
                 target="_blank"
@@ -157,14 +153,12 @@ const Footer = () => {
       </div>
 
       <div className="p-6 text-center ">
-        <span>© 2023 Copyright:</span>
+        <span>© 2023 Atlas wear</span>
         <Link
           target="_blank"
           className="font-semibold text-neutral-600 dark:text-neutral-400"
           to="https://tailwind-elements.com/"
-        >
-          Orkhan Rahimli
-        </Link>
+        ></Link>
       </div>
     </div>
   )

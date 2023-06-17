@@ -1,7 +1,7 @@
 import { productInstance } from '.'
 
-export async function getProductsHandler() {
-  const { data } = await productInstance.get(`/products`)
+export async function getProductsHandler(limit: number) {
+  const { data } = await productInstance.get(`/products?limit=${limit}`)
   return data
 }
 

@@ -7,7 +7,7 @@ import { FavoriteType } from '@/types/favoriteTypes'
 const Favorites = () => {
   const { data: favorites, isLoading } = useQuery({
     queryFn: getFavoritesHandler,
-    queryKey: ['favorites'],
+    queryKey: ['favorites', 'products'],
   })
 
   if (isLoading) return <PuffLoader color="#36d7b7" />

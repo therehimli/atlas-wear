@@ -3,7 +3,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { MdAlternateEmail } from 'react-icons/md'
 import { FaFacebookF } from 'react-icons/fa'
 import { SlSocialVkontakte } from 'react-icons/sl'
-import { FC, useRef } from 'react'
+import { FC, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -22,6 +22,7 @@ interface LoginBodyProps {
 const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
   const toggleModal = useToggleModalStore()
   const buttonRef = useRef<HTMLDivElement | null>(null)
+  const [showPassword, setShowPassword] = useState('password')
 
   const {
     register,
@@ -100,6 +101,8 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
             id="password"
             label="Password"
             autoComplete="on"
+            setShowPassword={setShowPassword}
+            type={showPassword}
             control={control}
             options={{
               required: 'Please enter your password',
@@ -109,7 +112,6 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
             }}
             errors={errors}
             disabled={false}
-            type="password"
           />
           {errors.password && errors.password.type === 'required' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
@@ -176,7 +178,6 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
           <SocialButton icon={FcGoogle} />
           <SocialButton icon={SlSocialVkontakte} />
           <SocialButton icon={FaFacebookF} />
-          <SocialButton icon={MdAlternateEmail} />
         </div>
       </div>
 

@@ -6,7 +6,7 @@ import {
   FieldValues,
   UseFormSetValue,
 } from 'react-hook-form'
-import { ChangeEvent, DragEvent, FC, useState } from 'react'
+import { ChangeEvent, DragEvent, FC, useRef, useState } from 'react'
 
 import Button from '@/UI/Button'
 import {
@@ -29,6 +29,12 @@ const PhotosInfo: FC<PhotosInfoProps> = ({
 }) => {
   const photosWatch = useWatch({ control, name: 'photos' })
   const [currentCard, setCurrentCard] = useState('')
+
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  const onInputFocus = () => {
+    inputRef?.current?.focus()
+  }
 
   const addPhotoLinkHandler = async () => {
     const { data: filename } = await postProductPhotoLinkHandler(photoLink)
@@ -73,10 +79,12 @@ const PhotosInfo: FC<PhotosInfoProps> = ({
         <div className="relative w-full">
           <input
             value={photoLink}
+            ref={inputRef}
             onChange={(e) => setPhotoLink(e.target.value)}
             className={`peer w-full p-4 text-[18px] pt-6 font-light bg-white border-2 rounded-full outline-none transition disabled:opacity-70 disabled:cursor-not-allowed hover:border-black focus:border-black `}
           />
           <label
+            onClick={onInputFocus}
             className={`absolute cursor-text text-md duration-150 transform -translate-y-1 top-7 origin-[0] peer-placeholder-shown:scale-100 left-6 text-[16px] text-neutral-500 peer-placeholder-shown:translate-y-2 peer-focus:scale-75 ml-2 peer-focus:-translate-y-6  ${
               photoLink ? '-translate-y-[24px] scale-75' : ''
             }`}

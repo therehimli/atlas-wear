@@ -1,4 +1,4 @@
-import { FC, useRef } from 'react'
+import { FC, useRef, useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { MdAlternateEmail } from 'react-icons/md'
 import { FaFacebookF } from 'react-icons/fa'
@@ -15,14 +15,19 @@ import useToggleModalStore from '@/store/useModalToggle'
 import useUserLogin from '@/store/useUserLogin'
 import { userLoginHandler } from '@/api/users'
 import { useKeyDown } from '@/hooks/useKeyDown'
+import GoogleLogin from 'react-google-login'
+import { googleUser } from '@/types/ownerType'
 
 interface LoginBodyProps {
   setError: (error: string) => void
 }
+const clientId =
+  '237958465621-fmrvh2091tbu9tmhjf2ih8th44nob55u.apps.googleusercontent.com'
 
 const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
   const { toggleButton } = useToggleModalStore()
   const { setUserLogin } = useUserLogin()
+  const [showPassword, setShowPassword] = useState('password')
 
   const buttonRef = useRef<HTMLDivElement | null>(null)
 
@@ -41,6 +46,7 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
 
   const loginHandler = async (data: FieldValues) => {
     const { email, password } = data
+
     try {
       const { data } = await userLoginHandler(email, password)
       setUserLogin(data)
@@ -53,12 +59,6 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
       if (error instanceof AxiosError) setError(error.response?.data)
     }
   }
-
-  useKeyDown(() => {
-    if (buttonRef.current) {
-      buttonRef.current.click()
-    }
-  }, ['Enter'])
 
   const onToggleButton = () => {
     toggleButton(2)
@@ -106,7 +106,8 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
             }}
             errors={errors}
             disabled={false}
-            type="password"
+            type={showPassword}
+            setShowPassword={setShowPassword}
             autoComplete="on"
           />
           {errors.password && errors.password.type === 'required' && (
@@ -131,7 +132,6 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
           <SocialButton icon={FcGoogle} />
           <SocialButton icon={SlSocialVkontakte} />
           <SocialButton icon={FaFacebookF} />
-          <SocialButton icon={MdAlternateEmail} />
         </div>
       </div>
 

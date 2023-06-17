@@ -4,7 +4,9 @@ import { BsTelephone } from 'react-icons/bs'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
+import { toast } from 'react-toastify'
 import 'moment/locale/ru'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { Product } from '@/types/productTypes'
 import useUserLogin from '@/store/useUserLogin'
@@ -56,7 +58,10 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                 size={25}
                 className="text-center"
                 cursor="pointer"
-                onClick={() => deleteFavorite(product._id)}
+                onClick={() => {
+                  toast.info('Удалено из избранных')
+                  deleteFavorite(product._id)
+                }}
               />
             </div>
           ) : (
@@ -66,7 +71,10 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                 size={20}
                 className="text-center"
                 cursor="pointer"
-                onClick={() => addFavorite(product._id)}
+                onClick={() => {
+                  toast.info('Добавлено в избранные')
+                  addFavorite(product._id)
+                }}
               />
             </div>
           )}

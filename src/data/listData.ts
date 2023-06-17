@@ -1,15 +1,9 @@
 import { StylesConfig } from 'react-select'
 import { nanoid } from 'nanoid'
 
-import {
-  ICategoryList,
-  IColorsList,
-  IDeliveryMethodList,
-  ILanguageList,
-  ISizeList,
-} from '@/types/listTypes'
+import { IListsType } from '@/types/listTypes'
 
-export const selectStyles: StylesConfig<ISizeList, true> = {
+export const selectStyles: StylesConfig<IListsType, true> = {
   option: (defaultStyles) => ({
     ...defaultStyles,
     color: 'black',
@@ -37,7 +31,7 @@ export const selectStyles: StylesConfig<ISizeList, true> = {
   }),
 }
 
-export const sizeList: ISizeList[] = [
+export const sizeList: IListsType[] = [
   { id: nanoid(), value: 'xxs', label: 'XXS' },
   { id: nanoid(), value: 'xs', label: 'XS' },
   { id: nanoid(), value: 's', label: 'S' },
@@ -48,7 +42,7 @@ export const sizeList: ISizeList[] = [
   { id: nanoid(), value: 'xxxl', label: 'XXXL' },
 ]
 
-export const categoryList: ICategoryList[] = [
+export const categoryList: IListsType[] = [
   { id: nanoid(), value: 'штаны', label: 'Штаны' },
   { id: nanoid(), value: 'свитеры', label: 'Свитеры' },
   { id: nanoid(), value: 'футболки', label: 'Футболки' },
@@ -60,18 +54,30 @@ export const categoryList: ICategoryList[] = [
   { id: nanoid(), value: 'костюмы', label: 'Костюмы' },
 ]
 
-export const languagesList: ILanguageList[] = [
+export const languagesList: IListsType[] = [
   { id: nanoid(), value: 'русский', label: 'Русский язык' },
   { id: nanoid(), value: 'english', label: 'English' },
 ]
 
-export const deliveryMethodList: IDeliveryMethodList[] = [
+export const deliveryMethodList: IListsType[] = [
   { id: nanoid(), value: 'Бесплатная', label: 'Бесплатная' },
   { id: nanoid(), value: 'Платная', label: 'Платная' },
   { id: nanoid(), value: 'Самовывоз', label: 'Самовывоз' },
 ]
 
-export const colorsList: IColorsList[] = [
+export const matchList: IListsType[] = [
+  { id: nanoid(), value: '1', label: 'По цене ↑' },
+  { id: nanoid(), value: '-1', label: 'По цене ↓' },
+]
+
+export const genderList: IListsType[] = [
+  { id: nanoid(), value: 'Женская', label: 'Женская' },
+  { id: nanoid(), value: 'Мужская', label: 'Мужская' },
+  { id: nanoid(), value: 'Детская', label: 'Детская' },
+  { id: nanoid(), value: 'Унисекс', label: 'Унисекс' },
+]
+
+export const colorsList: IListsType[] & { color: string }[] = [
   { id: nanoid(), value: 'bg-white', label: 'Белый', color: 'bg-white' },
   { id: nanoid(), value: 'bg-black', label: 'Чёрный', color: 'bg-black' },
   {

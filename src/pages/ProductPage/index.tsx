@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
-import { PropagateLoader, PuffLoader } from 'react-spinners'
+import { PuffLoader } from 'react-spinners'
 
 import { getProductHandler } from '@/api/products'
 import CategoryTop from './components/CategoryTop'
@@ -75,6 +75,7 @@ const ProductPage = () => {
         <PuffLoader size={100} color="#36d7b7" />
       </div>
     )
+
   if (commentsQuery.isLoading) return
 
   return (

@@ -31,7 +31,7 @@ const App: FC = () => {
   }, [user])
 
   return (
-    <div className="App mb-5 relative">
+    <div className="App relative">
       <Layout>
         {toggleModal.toggle === modalToggle.login ? (
           <LoginModal />

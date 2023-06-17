@@ -2,10 +2,10 @@ import { create } from 'zustand'
 
 type userType = {
   email: string
-  password: string
-  name: string
-  _id: string
-  avatar: string
+  password?: string
+  name?: string
+  _id?: string
+  avatar?: string
 }
 
 interface LoginProps {

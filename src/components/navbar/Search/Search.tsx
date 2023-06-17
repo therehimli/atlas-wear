@@ -23,6 +23,7 @@ const Search = () => {
   const onEnterDownHandler = (event: KeyboardEvent<HTMLFormElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault()
+      localStorage.removeItem('category')
       searchState.setChange(value)
       navigate('/search')
     }
@@ -39,7 +40,7 @@ const Search = () => {
         onChange={(e) => setValue(e.target.value)}
         type="text"
         className="outline-none border-none sm:w-[100px] md:w-[250px] lg:w-[500px]"
-        placeholder="Pants..."
+        placeholder="Свитер..."
       />
       <button onClick={clearInputHandler}>
         <FontAwesomeIcon size="lg" icon={faX} className="cursor-pointer" />

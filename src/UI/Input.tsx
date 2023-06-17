@@ -1,5 +1,6 @@
 import { FC, useRef } from 'react'
 import { BiDollar } from 'react-icons/bi'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import {
   FieldErrors,
   FieldValues,
@@ -15,6 +16,7 @@ interface InputProps {
   formatPrice?: boolean
   options?: any
   control?: any
+  setShowPassword?: (password: string) => void
   autoComplete?: string
   register: UseFormRegister<FieldValues>
   errors?: FieldErrors
@@ -30,6 +32,7 @@ const Input: FC<InputProps> = ({
   options,
   errors,
   autoComplete,
+  setShowPassword,
   control,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -87,6 +90,34 @@ const Input: FC<InputProps> = ({
           "
         />
       )}
+      {id === 'password' &&
+        (type === 'text' ? (
+          <AiOutlineEye
+            onClick={() => setShowPassword!('password')}
+            size={22}
+            className="
+            text-neutral-700
+            absolute
+            top-5
+            right-5
+            cursor-pointer
+            mt-1
+          "
+          />
+        ) : (
+          <AiOutlineEyeInvisible
+            onClick={() => setShowPassword!('text')}
+            size={22}
+            className="
+            text-neutral-700
+            absolute
+            top-5
+            right-5
+            cursor-pointer
+            mt-1
+          "
+          />
+        ))}
     </div>
   )
 }

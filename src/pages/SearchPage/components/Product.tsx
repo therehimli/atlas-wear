@@ -1,11 +1,11 @@
-import { createRef, FC, useState } from 'react'
+import { createRef, FC } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import { Product } from '@/types/productTypes'
+import { Product as ProductType } from '@/types/productTypes'
 import {
   deleteFavoriteHandler,
   addFavoriteHandler,
@@ -17,28 +17,26 @@ import useToggleModalStore from '@/store/useModalToggle'
 import { FavoriteType } from '@/types/favoriteTypes'
 
 interface ItemProps {
-  product: Product
+  product: ProductType
 }
 
-const Item: FC<ItemProps> = ({ product }) => {
+const Product: FC<ItemProps> = ({ product }) => {
   const imageRef = createRef<HTMLImageElement>()
   const { imageIndex, setImageIndex } = useChangeIndex()
   const client = useQueryClient()
   const { userLogin } = useUserLogin()
   const { toggleButton } = useToggleModalStore()
 
-  const { data: favorites } = useQuery({
-    queryFn: getFavoritesHandler,
-    queryKey: ['favorites', 'products'],
-  })
-
   const { mutate: addFavorite } = useMutation({
     mutationFn: addFavoriteHandler,
     onSuccess: () => {
-      client.invalidateQueries({
-        queryKey: ['favorites', 'products'],
-      })
+      client.invalidateQueries({ queryKey: ['favorites', 'products'] })
     },
+  })
+
+  const { data: favorites } = useQuery({
+    queryFn: getFavoritesHandler,
+    queryKey: ['favorites', 'products'],
   })
 
   const { mutate: deleteFavorite } = useMutation({
@@ -146,4 +144,4 @@ const Item: FC<ItemProps> = ({ product }) => {
   )
 }
 
-export default Item
+export default Product
