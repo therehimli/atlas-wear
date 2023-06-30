@@ -7,6 +7,7 @@ import {
   UseFormSetValue,
 } from 'react-hook-form'
 import { ChangeEvent, DragEvent, FC, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import Button from '@/UI/Button'
 import {
@@ -29,6 +30,7 @@ const PhotosInfo: FC<PhotosInfoProps> = ({
 }) => {
   const photosWatch = useWatch({ control, name: 'photos' })
   const [currentCard, setCurrentCard] = useState('')
+  const { t } = useTranslation()
 
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -89,7 +91,7 @@ const PhotosInfo: FC<PhotosInfoProps> = ({
               photoLink ? '-translate-y-[24px] scale-75' : ''
             }`}
           >
-            Добавить ссылку на изображание
+            {t('photo-link')}
           </label>
         </div>
         <div className="w-52">
@@ -101,7 +103,7 @@ const PhotosInfo: FC<PhotosInfoProps> = ({
             disabled={photosWatch.length > 9}
             onSubmit={addPhotoLinkHandler}
           >
-            <div>Добавить</div>
+            <div>{t('add')}</div>
           </Button>
         </div>
       </div>
@@ -138,7 +140,7 @@ const PhotosInfo: FC<PhotosInfoProps> = ({
             multiple
           />
           <SlCloudUpload size={25} />
-          <div className="text-[14px]">Загрузить</div>
+          <div className="text-[14px]">{t('upload')}</div>
         </label>
       </div>
     </div>

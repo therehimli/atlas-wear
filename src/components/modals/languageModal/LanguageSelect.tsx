@@ -1,6 +1,7 @@
-import React from 'react'
 import Select from 'react-select'
+import { useTranslation } from 'react-i18next'
 
+import useCurrencyToggle from '@/store/useCurrencyToggle'
 import './Select.scss'
 
 interface LanguageSelectProps {
@@ -12,9 +13,20 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({
   options,
   placeholder,
 }) => {
+  const { i18n } = useTranslation()
+  const { toggleCurrency } = useCurrencyToggle()
+
+  const onChange = (value: string) => {
+    toggleCurrency(value)
+    i18n.changeLanguage(value)
+  }
+
   return (
     <Select
       options={options}
+      onChange={(e: any) =>
+        e.value ? onChange!(e.value) : onChange!(e.map((c: any) => c.value))
+      }
       placeholder={placeholder}
       classNamePrefix="custom-select"
       classNames={{

@@ -1,5 +1,6 @@
 import { FC, MouseEventHandler, useState } from 'react'
 import { AiOutlineEye } from 'react-icons/ai'
+import { useTranslation } from 'react-i18next'
 
 import { Product } from '@/types/productTypes'
 import { commentType } from '@/types/commentType'
@@ -17,9 +18,9 @@ const ProductInfo: FC<ProductInfoProps> = ({
   scrollToDescription,
   comments,
 }) => {
-  const [colorIndex, setColorIndex] = useState(0)
   const [activeSize, setActiveSize] = useState('')
   const [activeColor, setActiveColor] = useState('')
+  const { t } = useTranslation()
 
   return (
     <div className="flex items-start justify-center flex-col gap-4 min-w-[400px]">
@@ -27,8 +28,18 @@ const ProductInfo: FC<ProductInfoProps> = ({
         <div className="font-semibold text-[20px]">{product.title}</div>
         <div className="flex gap-5 items-center">
           <div className="text-neutral-400 text-[14px]">
-            {product.gender.charAt(0).toLowerCase() + product.gender.slice(1)}{' '}
-            одежда
+            {localStorage.getItem('i18nextLng') === 'ru' ||
+            localStorage.getItem('i18nextLng') === '' ? (
+              <>
+                {product.gender.charAt(0).toLowerCase() +
+                  product.gender.slice(1)}
+                <span className="ml-1">одежда</span>
+              </>
+            ) : product.gender === 'Мужская' ? (
+              <div>man wear</div>
+            ) : (
+              <div>woman wear</div>
+            )}
           </div>
           <div className="flex items-center gap-1">
             <AiOutlineEye size={15} color="grey" />
@@ -38,12 +49,12 @@ const ProductInfo: FC<ProductInfoProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-5 te">
+        <div className="flex items-center gap-5">
           <p onClick={scrollToDescription} className="underline cursor-pointer">
-            Описание
+            {t('description')}
           </p>
           <p onClick={scrollToReviews} className="underline cursor-pointer">
-            Отзывы ({comments.length})
+            {t('review')} ({comments.length})
           </p>
         </div>
       </div>
@@ -52,7 +63,7 @@ const ProductInfo: FC<ProductInfoProps> = ({
         {!!product.colors.length && (
           <div className="flex flex-col gap-2 border-b-[1px] pb-1">
             <div>
-              <span>Цвет: </span>
+              <span>{t('color')}: </span>
               {activeColor.includes('0')
                 ? activeColor.slice(3, -4)
                 : activeColor.slice(3)}
@@ -72,7 +83,9 @@ const ProductInfo: FC<ProductInfoProps> = ({
         )}
         {!!product.sizes.length && (
           <>
-            <div>Размер: {activeSize.toUpperCase()}</div>
+            <div>
+              {t('size')}: {activeSize.toUpperCase()}
+            </div>
             <div className="grid grid-cols-4 gap-2 border-b-[1px] pb-1">
               {product.sizes.map((size, i) => (
                 <div
@@ -93,9 +106,14 @@ const ProductInfo: FC<ProductInfoProps> = ({
 
         {product.state && (
           <div className="flex items-center gap-2 border-b-[1px] pb-1">
-            <div>Состояние: </div>
+            <div>{t('condition')}: </div>
             <div className="font-semibold text-[15px] italic">
-              {product.state}
+              {localStorage.getItem('i18nextLng') === 'ru' ||
+              localStorage.getItem('i18nextLng') === ''
+                ? product.state
+                : product.state === 'Б/у'
+                ? 'Used'
+                : 'New'}
             </div>
           </div>
         )}

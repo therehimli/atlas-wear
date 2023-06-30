@@ -2,6 +2,7 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { PuffLoader } from 'react-spinners'
+import { useTranslation } from 'react-i18next'
 
 import Button from '../UI/Button'
 import {
@@ -12,6 +13,7 @@ import { Product } from '@/types/productTypes'
 
 const Accommodations = () => {
   const client = useQueryClient()
+  const { t } = useTranslation()
 
   const {
     data: accommodations,
@@ -43,7 +45,7 @@ const Accommodations = () => {
         >
           <div className="flex item-center gap-2 rounded-full">
             <AiOutlinePlus size={27} />
-            <div>Разместить объявление</div>
+            <div>{t('create-accommodation')}</div>
           </div>
         </Button>
       </Link>
@@ -84,15 +86,15 @@ const Accommodations = () => {
                   <div className="flex gap-2 items-center w-[310px]">
                     <Link
                       to={`/account/accommodations/${accommodation._id}`}
-                      className="p-2 bg-green-500 hover:bg-green-600 rounded-full text-white"
+                      className="p-2 bg-green-500 hover:bg-green-600 rounded-full text-white px-3"
                     >
-                      редактировать
+                      {t('edit')}
                     </Link>
                     <button
                       onClick={() => deleteAccommodation(accommodation._id)}
-                      className="p-2 bg-red-500 hover:bg-red-600 rounded-full text-white"
+                      className="p-2 bg-red-500 hover:bg-red-600 rounded-full text-white px-3"
                     >
-                      Удалить объявление
+                      {t('delete')}
                     </button>
                   </div>
                 </div>

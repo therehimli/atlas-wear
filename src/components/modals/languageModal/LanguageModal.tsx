@@ -1,4 +1,3 @@
-import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 
@@ -19,11 +18,8 @@ const LanguageModal: React.FC = () => {
                 onClick={() => toggleModal.toggleButton(0)}
                 className="self-end"
               >
-                <FontAwesomeIcon size="xl" icon={faX} className="" />
+                <FontAwesomeIcon size="xl" icon={faX} />
               </button>
-              <div>
-                <div className="text-[32px] font-bold">Select your options</div>
-              </div>
               <div>{ModalContent}</div>
             </div>
           </div>

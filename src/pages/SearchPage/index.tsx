@@ -5,18 +5,26 @@ import { getSearchProductsHandler } from '@/api/searchProducts'
 import Filters from './components/Filters'
 import Heading from './components/Heading'
 import Products from './components/Products'
-import useSearchState from '@/store/useSearchState'
+import SearchPagination from './components/SearchPagination'
+import { useSearchParams } from 'react-router-dom'
 
 const SearchPage = () => {
-  const [lowerPrice, setLowerPrice] = useState('')
-  const [highPrice, setHighPrice] = useState('')
+  const [lowerPrice, setLowerPrice] = useSearchParams()
+  const [highPrice, setHighPrice] = useSearchParams()
   const [gender, setGender] = useState('')
   const [match, setMatch] = useState('')
+  const [page, setPage] = useState(1)
+
+  const handleChangePage = (value: number) => {
+    setPage(value)
+  }
 
   const storedCategory =
     localStorage.getItem('category') &&
     JSON.parse(localStorage.getItem('category') || '')
-  const { text: search } = useSearchState()
+
+  const lowerPriceQuery = lowerPrice.get('min') || ''
+  const highPriceQuery = highPrice.get('max') || ''
 
   const {
     data: products,
@@ -25,21 +33,21 @@ const SearchPage = () => {
   } = useQuery({
     queryFn: () =>
       getSearchProductsHandler(
-        lowerPrice,
-        highPrice,
+        lowerPriceQuery,
+        highPriceQuery,
         gender,
         match,
         storedCategory,
-        search
+        page
       ),
     queryKey: [
       'products',
-      lowerPrice,
-      highPrice,
+      lowerPrice.get('min'),
+      highPrice.get('max'),
       gender,
+      page,
       match,
       storedCategory,
-      search,
     ],
   })
 
@@ -55,8 +63,8 @@ const SearchPage = () => {
             setMatch={setMatch}
             match={match}
             setHighPrice={setHighPrice}
-            lowerPrice={lowerPrice}
-            highPrice={highPrice}
+            lowerPrice={lowerPriceQuery}
+            highPrice={highPriceQuery}
           />
         </aside>
         <main>
@@ -66,11 +74,12 @@ const SearchPage = () => {
             isSuccess={isSuccess}
             gender={gender}
             match={match}
-            lowerPrice={lowerPrice}
-            highPrice={highPrice}
+            lowerPrice={lowerPriceQuery}
+            highPrice={highPriceQuery}
           />
         </main>
       </div>
+      <SearchPagination page={page} changePageHandler={handleChangePage} />
     </div>
   )
 }

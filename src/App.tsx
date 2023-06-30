@@ -22,7 +22,10 @@ const App: FC = () => {
   const toggleModal = useToggleModalStore()
   const { setUserLogin } = useUserLogin()
 
-  const { data: user, isLoading } = useQuery(['users'], userProfileHandler)
+  const { data: user, isLoading } = useQuery(
+    ['users', 'products'],
+    userProfileHandler
+  )
 
   useEffect(() => {
     if (isLoading) return

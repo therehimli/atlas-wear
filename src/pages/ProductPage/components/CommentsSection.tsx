@@ -1,7 +1,8 @@
-import { commentType } from '@/types/commentType'
 import { FC } from 'react'
 import Moment from 'react-moment'
 import 'moment/locale/ru'
+
+import { commentType } from '@/types/commentType'
 
 interface CommentsSectionProps {
   comments: commentType[]
@@ -40,7 +41,7 @@ const CommentsSection: FC<CommentsSectionProps> = ({
                 className="text-[12px] text-neutral-400"
                 format="LL"
                 parse="YYYY-MM-DD HH:mm"
-                locale="ru"
+                locale={localStorage.getItem('i18nextLng') || ''}
               >
                 {comment.createdAt}
               </Moment>

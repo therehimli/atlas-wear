@@ -1,4 +1,4 @@
-import { createRef, FC, useState } from 'react'
+import { createRef, FC } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
@@ -15,6 +15,7 @@ import useChangeIndex from '@/hooks/useChangeIndex'
 import useUserLogin from '@/store/useUserLogin'
 import useToggleModalStore from '@/store/useModalToggle'
 import { FavoriteType } from '@/types/favoriteTypes'
+import useCurrencyToggle from '@/store/useCurrencyToggle'
 
 interface ItemProps {
   product: Product
@@ -26,6 +27,7 @@ const Item: FC<ItemProps> = ({ product }) => {
   const client = useQueryClient()
   const { userLogin } = useUserLogin()
   const { toggleButton } = useToggleModalStore()
+  const { currency } = useCurrencyToggle()
 
   const { data: favorites } = useQuery({
     queryFn: getFavoritesHandler,
@@ -99,12 +101,18 @@ const Item: FC<ItemProps> = ({ product }) => {
         <Link to={`product/${product._id}`}>
           <div className="flex flex-col">
             <div className="text-sm text-neutral-400">{product.category}</div>
-            <p className="text-xl font-bold">{product.price} ₽</p>
+            {currency === 'rub' || currency === '' ? (
+              <p className="text-xl font-bold">{product.price} ₽</p>
+            ) : (
+              <p className="text-xl font-bold">
+                {Math.trunc(product.price / 86)} $
+              </p>
+            )}
           </div>
         </Link>
         <div>
           {!userLogin.email ? (
-            <div className="hover:bg-red-200 rounded-full p-1">
+            <div className="hover:bg-red-200 rounded-full p-1 ">
               <AiOutlineHeart
                 color="red"
                 size={20}
@@ -114,11 +122,11 @@ const Item: FC<ItemProps> = ({ product }) => {
               />
             </div>
           ) : hasInFavorites?.length > 0 ? (
-            <div className="bg-red-200 rounded-full p-1">
+            <div className="bg-red-200 rounded-full p-1 transition-all">
               <AiFillHeart
                 color="red"
                 size={25}
-                className="text-center"
+                className="text-center transition-all"
                 cursor="pointer"
                 onClick={() => {
                   deleteFavorite(product._id)
@@ -127,11 +135,11 @@ const Item: FC<ItemProps> = ({ product }) => {
               />
             </div>
           ) : (
-            <div className="hover:bg-red-200 rounded-full p-1">
+            <div className="hover:bg-red-200 rounded-full p-1 transition-all">
               <AiOutlineHeart
                 color="red"
                 size={20}
-                className="text-center"
+                className="text-center transition-all"
                 cursor="pointer"
                 onClick={() => {
                   addFavorite(product._id)

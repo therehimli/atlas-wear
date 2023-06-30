@@ -6,10 +6,12 @@ export async function getSearchProductsHandler(
   gender: string,
   match: string,
   category: string,
-  search: string
+  page: number
 ) {
   const { data } = await productInstance.get(
-    `/search-products?minPrice=${minPrice}&maxPrice=${maxPrice}&gender=${gender}&match=${match}&category=${category}&search=${search}`
+    `/search-products?minPrice=${minPrice}&maxPrice=${maxPrice}&gender=${gender}&match=${match}&category=${category}&page=${
+      page * 8
+    }`
   )
   return data
 }

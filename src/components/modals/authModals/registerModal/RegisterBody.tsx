@@ -1,9 +1,9 @@
 import { useForm, FieldValues } from 'react-hook-form'
 import { FcGoogle } from 'react-icons/fc'
-import { MdAlternateEmail } from 'react-icons/md'
 import { FaFacebookF } from 'react-icons/fa'
 import { SlSocialVkontakte } from 'react-icons/sl'
 import { FC, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -23,6 +23,7 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
   const toggleModal = useToggleModalStore()
   const buttonRef = useRef<HTMLDivElement | null>(null)
   const [showPassword, setShowPassword] = useState('password')
+  const { t } = useTranslation()
 
   const {
     register,
@@ -72,7 +73,7 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
           <Input
             register={register}
             id="email"
-            label="Email"
+            label={t('email')}
             control={control}
             options={{
               required: 'Please enter your email',
@@ -86,12 +87,12 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
           />
           {errors.email && errors.email.type === 'required' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Email is required.
+              {t('email-required')}
             </p>
           )}
           {errors.email && errors.email.type === 'pattern' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Email is not valid.
+              {t('email-correct')}
             </p>
           )}
         </div>
@@ -99,7 +100,7 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
           <Input
             register={register}
             id="password"
-            label="Password"
+            label={t('password')}
             autoComplete="on"
             setShowPassword={setShowPassword}
             type={showPassword}
@@ -115,18 +116,17 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
           />
           {errors.password && errors.password.type === 'required' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Password is required.
+              {t('password-required')}
             </p>
           )}
           {errors.password && errors.password.type === 'pattern' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Password should contain at least one uppercase letter, lowercase
-              letter, digit, and special symbol.
+              {t('password-validation')}
             </p>
           )}
           {errors.password && errors.password.type === 'minLength' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Password should be at-least 6 characters.
+              {t('password-min')}
             </p>
           )}
         </div>
@@ -135,7 +135,7 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
           <Input
             register={register}
             id="name"
-            label="Name"
+            label={t('name')}
             control={control}
             options={{
               required: 'Please enter your name',
@@ -148,17 +148,17 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
           />
           {errors.name && errors.name.type === 'required' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Name is required.
+              {t('name-required')}
             </p>
           )}
           {errors.name && errors.name.type === 'minLength' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Name should be at-least 3 characters.
+              {t('name-min')}
             </p>
           )}
           {errors.name && errors.name.type === 'maxLength' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Name can't contain over 20 symbols
+              {t('name-max')}
             </p>
           )}
         </div>
@@ -168,12 +168,12 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
           hoverbgcolor="hover:bg-orange-600"
           type="submit"
         >
-          <div ref={buttonRef}>Create</div>
+          <div ref={buttonRef}>{t('create')}</div>
         </Button>
       </form>
 
       <div className="flex items-center flex-col gap-2">
-        <div className="text-neutral-500 text-sm">Or continue through</div>
+        <div className="text-neutral-500 text-sm">{t('or-continue')}</div>
         <div className="flex items-center gap-3">
           <SocialButton icon={FcGoogle} />
           <SocialButton icon={SlSocialVkontakte} />
@@ -190,13 +190,13 @@ const RegisterBody: FC<LoginBodyProps> = ({ setError }) => {
           textcolor="text-black"
           hoverbgcolor="hover:bg-neutral-400"
         >
-          <div>Already have an account?</div>
+          <div>{t('have-account')}</div>
         </Button>
         <Link
           to="/"
           className="font-bold text-sm border-b-[1px] cursor-pointer border-black line-clamp-1"
         >
-          Need help?
+          {t('need-help')}
         </Link>
       </div>
     </div>

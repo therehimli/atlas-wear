@@ -1,15 +1,22 @@
-import useCountries from '@/hooks/useCountries'
+import { useTranslation } from 'react-i18next'
+
 import LanguageSelect from './LanguageSelect'
-import { languagesList } from '@/data/listData'
+import { currencyList, languagesList } from '@/data/listData'
 
 const LanguageModalContent: React.FC = () => {
-  const { getAll } = useCountries()
+  const { t } = useTranslation()
 
   return (
     <>
       <div className="flex flex-col gap-4">
+        <p className="text-[22px] font-bold text-neutral-500">
+          {t('choose-language')}
+        </p>
         <LanguageSelect options={languagesList} placeholder="Language" />
-        <LanguageSelect options={getAll()} placeholder="Currency" />
+        <p className="text-[22px] font-bold text-neutral-500">
+          {t('choose-currency')}
+        </p>
+        <LanguageSelect options={currencyList} placeholder="Currency" />
       </div>
     </>
   )

@@ -1,4 +1,5 @@
 import { FieldValues } from 'react-hook-form'
+
 import { authInstance } from '.'
 
 export async function getAccommodationsHandler() {

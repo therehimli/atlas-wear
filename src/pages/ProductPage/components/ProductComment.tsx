@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface ProductCommentProps {
   comment: string
@@ -13,6 +14,8 @@ const ProductComment: FC<ProductCommentProps> = ({
   setComment,
   commentButtonRef,
 }) => {
+  const { t } = useTranslation()
+
   return (
     <div className="w-full flex items-center gap-3">
       <input
@@ -27,7 +30,7 @@ const ProductComment: FC<ProductCommentProps> = ({
         ref={commentButtonRef}
         className="p-3 bg-[#7092FF] rounded-full text-white font-thin"
       >
-        Отправить
+        {t('send')}
       </button>
     </div>
   )

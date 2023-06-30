@@ -1,9 +1,10 @@
 import { FC } from 'react'
 import { AiFillHeart, AiOutlineHeart, AiOutlineMail } from 'react-icons/ai'
 import { BsTelephone } from 'react-icons/bs'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import 'moment/locale/ru'
 import 'react-toastify/dist/ReactToastify.css'
@@ -11,7 +12,13 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Product } from '@/types/productTypes'
 import useUserLogin from '@/store/useUserLogin'
 import useToggleModalStore from '@/store/useModalToggle'
-import { deleteFavoriteHandler, addFavoriteHandler } from '@/api/favorites'
+import {
+  deleteFavoriteHandler,
+  addFavoriteHandler,
+  getFavoritesHandler,
+} from '@/api/favorites'
+import { FavoriteType } from '@/types/favoriteTypes'
+import useCurrencyToggle from '@/store/useCurrencyToggle'
 
 interface ProductCardProps {
   product: Product
@@ -21,26 +28,45 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const client = useQueryClient()
   const { userLogin } = useUserLogin()
   const { toggleButton } = useToggleModalStore()
+  const { t } = useTranslation()
+  const { currency } = useCurrencyToggle()
+
+  const { data: favorites } = useQuery({
+    queryFn: getFavoritesHandler,
+    queryKey: ['favorites', 'product'],
+  })
 
   const { mutate: addFavorite } = useMutation({
     mutationFn: addFavoriteHandler,
     onSuccess: () => {
-      client.invalidateQueries({ queryKey: ['product'] })
+      client.invalidateQueries({ queryKey: ['favorites', 'product'] })
     },
   })
 
   const { mutate: deleteFavorite } = useMutation({
     mutationFn: deleteFavoriteHandler,
     onSuccess: () => {
-      client.invalidateQueries({ queryKey: ['product'] })
+      client.invalidateQueries({ queryKey: ['favorites', 'product'] })
     },
   })
+
+  const hasInFavorites =
+    favorites &&
+    favorites.filter(
+      (favorite: FavoriteType) => favorite.product._id === product._id
+    )
 
   return (
     <div className="flex flex-col gap-3 sticky top-32 min-w-[350px]">
       <div className="rounded-xl border-2 shadow-lg w-full flex flex-col gap-1 py-3 px-4">
         <div className="flex items-center justify-between ">
-          <div className="text-[24px] font-semibold">{product.price} ₽</div>
+          {currency === 'rub' ? (
+            <p className="text-[24px] font-semibold">{product.price} ₽</p>
+          ) : (
+            <p className="text-[24px] font-semibold">
+              {Math.trunc(product.price / 86)} $
+            </p>
+          )}
           {!userLogin.email ? (
             <div className="hover:bg-red-200 rounded-full p-1">
               <AiOutlineHeart
@@ -51,7 +77,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                 onClick={() => toggleButton(1)}
               />
             </div>
-          ) : product.favorite ? (
+          ) : hasInFavorites?.length > 0 ? (
             <div className="bg-red-200 rounded-full p-1">
               <AiFillHeart
                 color="red"
@@ -59,8 +85,8 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                 className="text-center"
                 cursor="pointer"
                 onClick={() => {
-                  toast.info('Удалено из избранных')
                   deleteFavorite(product._id)
+                  toast.info(t('favorite-delete'))
                 }}
               />
             </div>
@@ -72,8 +98,8 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                 className="text-center"
                 cursor="pointer"
                 onClick={() => {
-                  toast.info('Добавлено в избранные')
                   addFavorite(product._id)
+                  toast.info(t('favorite-add'))
                 }}
               />
             </div>
@@ -97,7 +123,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
             </div>
           </div>
 
-          <div>Свяжись с владельцом</div>
+          <div>{t('contact-owner')}</div>
         </div>
         <div className="flex flex-col gap-2">
           <div className="border-b-[0.1px] border-black border-solid flex gap-2 items-center cursor-pointer">
@@ -118,25 +144,34 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
               {product.contactNumber}
             </span>
           </Link>
-          <div className="border-b-[0.1px] border-black border-solid ">
-            Доставка:
+          <div className="border-b-[0.1px] border-black border-solid flex">
+            {t('delivery')}:
             <span className="ml-1 font-semibold italic">
-              {product.delivery}
+              {localStorage.getItem('i18nextLng') === 'ru' ||
+              localStorage.getItem('i18nextLng') === '' ? (
+                product.delivery
+              ) : product.delivery === 'Самовызов' ? (
+                <div>Pickup</div>
+              ) : product.delivery === 'Платная' ? (
+                <div>Paid</div>
+              ) : (
+                <div>Free</div>
+              )}
             </span>
           </div>
           <div className="border-b-[0.1px] border-black border-solid">
-            Город:
+            {t('city')}:
             <span className="ml-1 font-semibold italic">{product.city}</span>
           </div>
           <div className="flex items-center">
             <div className="text-neutral-500 text-[12px] flex items-center">
-              Дата создания:
+              {t('created-date')}:
               <Moment format="LL" parse="YYYY-MM-DD HH:mm" locale="ru">
                 {product.createdAt}
               </Moment>
             </div>
             <div className="text-neutral-500 text-[12px] flex items-center">
-              Последнее обновление:
+              {t('last-update')}:
               <Moment format="LL" parse="YYYY-MM-DD HH:mm" locale="ru">
                 {product.updatedAt}
               </Moment>

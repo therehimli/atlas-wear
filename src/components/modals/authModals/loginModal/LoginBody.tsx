@@ -1,11 +1,11 @@
 import { FC, useRef, useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
-import { MdAlternateEmail } from 'react-icons/md'
 import { FaFacebookF } from 'react-icons/fa'
 import { SlSocialVkontakte } from 'react-icons/sl'
 import { toast } from 'react-toastify'
 import { AxiosError } from 'axios'
 import { FieldValues, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import 'react-toastify/dist/ReactToastify.css'
 
 import Input from '@/UI/Input'
@@ -14,9 +14,6 @@ import SocialButton from '@/UI/SocialButton'
 import useToggleModalStore from '@/store/useModalToggle'
 import useUserLogin from '@/store/useUserLogin'
 import { userLoginHandler } from '@/api/users'
-import { useKeyDown } from '@/hooks/useKeyDown'
-import GoogleLogin from 'react-google-login'
-import { googleUser } from '@/types/ownerType'
 
 interface LoginBodyProps {
   setError: (error: string) => void
@@ -28,6 +25,7 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
   const { toggleButton } = useToggleModalStore()
   const { setUserLogin } = useUserLogin()
   const [showPassword, setShowPassword] = useState('password')
+  const { t } = useTranslation()
 
   const buttonRef = useRef<HTMLDivElement | null>(null)
 
@@ -74,7 +72,7 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
           <Input
             register={register}
             id="email"
-            label="Email"
+            label={t('email')}
             options={{
               required: 'Please enter your email',
               pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
@@ -86,12 +84,12 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
           />
           {errors.email && errors.email.type === 'required' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Email is required.
+              {t('email-required')}
             </p>
           )}
           {errors.email && errors.email.type === 'pattern' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Please enter a valid email.
+              {t('email-correct')}
             </p>
           )}
         </div>
@@ -99,7 +97,7 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
           <Input
             register={register}
             id="password"
-            label="Password"
+            label={t('password')}
             control={control}
             options={{
               required: 'Please enter your password',
@@ -112,7 +110,7 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
           />
           {errors.password && errors.password.type === 'required' && (
             <p className="text-red-600 self-start text-[14px] ml-4">
-              Password is required.
+              {t('password-required')}
             </p>
           )}
         </div>
@@ -122,12 +120,12 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
           hoverbgcolor="hover:bg-orange-600"
           type="submit"
         >
-          <div ref={buttonRef}>Sign up</div>
+          <div ref={buttonRef}>{t('login-signup')}</div>
         </Button>
       </form>
 
       <div className="flex items-center flex-col gap-2">
-        <div className="text-neutral-500 text-sm">Or continue through</div>
+        <div className="text-neutral-500 text-sm">{t('or-continue')}</div>
         <div className="flex items-center gap-3">
           <SocialButton icon={FcGoogle} />
           <SocialButton icon={SlSocialVkontakte} />
@@ -144,10 +142,10 @@ const LoginBody: FC<LoginBodyProps> = ({ setError }) => {
           bgcolor="bg-neutral-300"
           hoverbgcolor="hover:bg-neutral-400"
         >
-          <div>Create an account</div>
+          <div>{t('create-account')}</div>
         </Button>
         <div className="font-bold text-sm border-b-[1px] cursor-pointer border-black line-clamp-1">
-          Need help?
+          {t('need-help')}
         </div>
       </div>
     </div>

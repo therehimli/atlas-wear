@@ -2,7 +2,10 @@ import Select from 'react-select'
 
 import { genderList, matchList } from '@/data/listData'
 import { FC } from 'react'
-import { Product } from '@/types/productTypes'
+import Button from '@/UI/Button'
+import { BsArrowLeft } from 'react-icons/bs'
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 interface FiltersProps {
   setLowerPrice: (lowerPrice: string) => void
@@ -25,6 +28,8 @@ const Filters: FC<FiltersProps> = ({
   setMatch,
   match,
 }) => {
+  const { t } = useTranslation()
+
   return (
     <div className="flex flex-col gap-5">
       <Select
@@ -32,30 +37,31 @@ const Filters: FC<FiltersProps> = ({
         onChange={(e: any) =>
           e.value ? setMatch!(e.value) : setMatch!(e.map((c: any) => c.value))
         }
-        placeholder="Best match"
+        placeholder={t('best-match')}
         options={matchList}
       />
       <div className="flex flex-col gap-2 ">
-        <h2 className="text-[22px]">Price</h2>
+        <h2 className="text-[22px]">{t('price')}</h2>
         <div className="flex gap-2 items-center">
           <input
             value={lowerPrice}
-            onChange={(e) => setLowerPrice(e.target.value)}
+            name="lowerPrice"
+            onChange={(e) => setLowerPrice({ min: e.target.value })}
             type="text"
-            placeholder="from"
+            placeholder={t('from')}
             className="rounded-full outline-none border-neutral-300 border-[1px] border-solid text-[15px] p-2 w-32 h-10"
           />
           <input
             value={highPrice}
-            onChange={(e) => setHighPrice(e.target.value)}
+            onChange={(e) => setHighPrice({ max: e.target.value })}
             type="text"
-            placeholder="to"
+            placeholder={t('to')}
             className="rounded-full outline-none border-neutral-300 border-[1px] border-solid text-[15px] p-2 w-32 h-10"
           />
         </div>
       </div>
       <div className="flex flex-col gap-2 ">
-        <h2 className="text-[22px]">Gender</h2>
+        <h2 className="text-[22px]">{t('gender')}</h2>
         <div className="flex gap-2 items-center">
           <Select
             value={genderList?.find((c: any) => c.value === gender)}
@@ -64,12 +70,20 @@ const Filters: FC<FiltersProps> = ({
                 ? setGender!(e.value)
                 : setGender!(e.map((c: any) => c.value))
             }
-            placeholder="choose gender..."
+            placeholder={t('choose-gender')}
             options={genderList}
             className="w-full"
           />
         </div>
       </div>
+      <Link to="/">
+        <Button bgcolor="bg-[#111111]" textcolor="text-white">
+          <div className="flex items-center gap-2 justify-center">
+            <BsArrowLeft />
+            <span>{t('home')}</span>
+          </div>
+        </Button>
+      </Link>
     </div>
   )
 }

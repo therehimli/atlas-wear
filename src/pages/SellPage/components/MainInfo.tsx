@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import {
   Control,
   Controller,
@@ -6,19 +6,20 @@ import {
   FieldValues,
   UseFormRegister,
 } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import {
   sizeList,
   selectStyles,
-  categoryList,
   colorsList,
   deliveryMethodList,
   cityList,
+  categoryListRu,
+  categoryListEn,
 } from '@/data/listData'
 import CustomSelect from './CustomSelect'
 import Input from '@/UI/Input'
 import { IColorsList } from '@/types/listTypes'
-import axios from 'axios'
 
 interface MainInfoProps {
   register: UseFormRegister<FieldValues>
@@ -27,12 +28,19 @@ interface MainInfoProps {
 }
 
 const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
+  const { t } = useTranslation()
+
+  const categoryList =
+    localStorage.getItem('i18nextLng') === 'ru'
+      ? categoryListRu
+      : categoryListEn
+
   return (
     <>
       <div className="flex flex-col gap-1">
         <Input
           register={register}
-          label="Название"
+          label={t('title')}
           formatPrice={false}
           id="title"
           control={control}
@@ -43,14 +51,14 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
         />
         {errors?.title && errors.title.type === 'required' && (
           <p className="text-red-600 self-start text-[14px] ml-4">
-            Введите название одежды
+            {t('title-required')}
           </p>
         )}
       </div>
       <div>
         <Input
           register={register}
-          label="Цена"
+          label={t('price')}
           formatPrice={true}
           id="price"
           control={control}
@@ -62,19 +70,19 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
         />
         {errors?.price && errors.price.type === 'required' && (
           <p className="text-red-600 self-start text-[14px] ml-4">
-            Введите цену одежды.
+            {t('price-required')}
           </p>
         )}
         {errors?.price && errors.price.type === 'pattern' && (
           <p className="text-red-600 self-start text-[14px] ml-4">
-            Введите правильные значения
+            {t('price-validation')}
           </p>
         )}
       </div>
       <div>
         <Input
           register={register}
-          label="Почта"
+          label={t('email')}
           formatPrice={false}
           id="contactEmail"
           control={control}
@@ -86,19 +94,19 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
         />
         {errors?.contactEmail && errors.contactEmail.type === 'required' && (
           <p className="text-red-600 self-start text-[14px] ml-4">
-            Пожалуйства заполните поле
+            {t('email-required')}
           </p>
         )}
         {errors?.contactEmail && errors.contactEmail.type === 'pattern' && (
           <p className="text-red-600 self-start text-[14px] ml-4">
-            Введите правильный email
+            {t('email-correct')}
           </p>
         )}
       </div>
       <div>
         <Input
           register={register}
-          label="Номер телефона"
+          label={t('contact-number')}
           formatPrice={false}
           id="contactNumber"
           control={control}
@@ -110,12 +118,12 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
         />
         {errors?.contactNumber && errors.contactNumber.type === 'required' && (
           <p className="text-red-600 self-start text-[14px] ml-4">
-            Введите номер для связи.
+            {t('number-required')}
           </p>
         )}
         {errors?.contactNumber && errors.contactNumber.type === 'pattern' && (
           <p className="text-red-600 self-start text-[14px] ml-4">
-            Введите правильные значения
+            {t('price-validation')}
           </p>
         )}
       </div>
@@ -126,7 +134,7 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
         name="sizes"
         render={({ field: { onChange, value } }: any) => (
           <CustomSelect
-            placeholder="Выберите размеры"
+            placeholder={t('choose-size')}
             options={sizeList}
             styles={selectStyles}
             isMulti={true}
@@ -140,7 +148,7 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
         name="colors"
         render={({ field: { onChange, value } }: any) => (
           <CustomSelect
-            placeholder="Выберите цвета"
+            placeholder={t('choose-color')}
             options={colorsList}
             onChange={onChange}
             value={value}
@@ -165,7 +173,7 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
         name="delivery"
         render={({ field: { onChange, value } }: any) => (
           <CustomSelect
-            placeholder="Способ доставки"
+            placeholder={t('delivery-method')}
             options={deliveryMethodList}
             onChange={onChange}
             value={value}
@@ -182,7 +190,7 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
         render={({ field: { onChange, value } }: any) => (
           <div className="w-full">
             <CustomSelect
-              placeholder="Выберите категорию"
+              placeholder={t('choose-category')}
               options={categoryList}
               styles={selectStyles}
               isMulti={false}
@@ -191,7 +199,7 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
             />
             {errors?.category && errors.category.type === 'required' && (
               <p className="text-red-600 self-start text-[14px] ml-4">
-                Пожалуйста выберите категорию
+                {t('category-required')}
               </p>
             )}
           </div>
@@ -205,7 +213,7 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
         render={({ field: { onChange, value } }: any) => (
           <div className="w-full">
             <CustomSelect
-              placeholder="Выберите область"
+              placeholder={t('choose-city')}
               options={cityList}
               styles={selectStyles}
               isMulti={false}
@@ -214,7 +222,7 @@ const MainInfo: FC<MainInfoProps> = ({ register, errors, control }) => {
             />
             {errors?.city && errors.city.type === 'required' && (
               <p className="text-red-600 self-start text-[14px] ml-4">
-                Пожалуйста выберите область
+                {t('city-required')}
               </p>
             )}
           </div>

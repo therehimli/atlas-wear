@@ -9,3 +9,8 @@ export async function getProductHandler(id: string) {
   const { data } = await productInstance.get(`/products/${id}`)
   return data
 }
+
+export async function getSimilarProductsHandler(category: string) {
+  const { data } = await productInstance.get(`/similar-products/${category}`)
+  return data
+}

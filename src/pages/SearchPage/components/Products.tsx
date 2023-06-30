@@ -34,7 +34,9 @@ const Products: FC<ProductsProps> = ({ products, isSuccess, isLoading }) => {
     <div className="grid grid-cols-4 gap-[20px]">
       {isSuccess &&
         products
-          .filter((product) => product.title.toLowerCase().includes(text))
+          .filter((product) =>
+            product.title.toLowerCase().includes(text.toLowerCase())
+          )
           .map((product: ProductType) => (
             <Product product={product} key={product._id} />
           ))}

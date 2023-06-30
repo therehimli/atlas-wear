@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { useForm, FieldValues } from 'react-hook-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 import MainInfo from './components/MainInfo'
 import PhotosInfo from './components/PhotosInfo'
@@ -20,11 +21,13 @@ const SellPage = () => {
   const [redirect, setRedirect] = useState(false)
   const { id } = useParams()
   const client = useQueryClient()
+  const { t } = useTranslation()
 
   const {
     register,
     handleSubmit,
     control,
+    watch,
     setValue,
     reset,
     formState: { errors },
@@ -97,13 +100,18 @@ const SellPage = () => {
       className="flex flex-col justify-center items-start gap-10"
     >
       <div className="text-[32px] w-full gap-2 font-semibold border-b-[0.4px] border-solid border-black">
-        Sell your wears
+        {t('sell-wear')}
       </div>
       <div className="w-full flex flex-col items-center gap-10">
         <div className="grid grid-cols-2 w-full gap-3">
           <MainInfo register={register} errors={errors} control={control} />
-          <GenderInfo register={register} errors={errors} />
-          <StateInfo register={register} />
+          <GenderInfo
+            register={register}
+            errors={errors}
+            setValue={setValue}
+            watch={watch}
+          />
+          <StateInfo register={register} setValue={setValue} watch={watch} />
         </div>
         <PhotosInfo
           setPhotoLink={setPhotoLink}
@@ -118,7 +126,7 @@ const SellPage = () => {
         hoverbgcolor="hover:bg-[#ef3356]"
         textcolor="text-white"
       >
-        <div>{id ? 'Обновить' : 'Разместить'}</div>
+        <div>{id ? t('edit') : t('place')}</div>
       </Button>
     </form>
   )

@@ -3,6 +3,7 @@ import { FiUser } from 'react-icons/fi'
 import { AiOutlineUser } from 'react-icons/ai'
 import { MdOutlineSell } from 'react-icons/md'
 import { Link, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import useToggleModalStore from '@/store/useModalToggle'
 import useUserLogin from '@/store/useUserLogin'
@@ -12,6 +13,7 @@ const Menu: FC = memo(() => {
   const { userLogin } = useUserLogin()
   const { avatar, email } = userLogin
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const onSellHandler = () => {
     if (userLogin.email) {
@@ -33,7 +35,7 @@ const Menu: FC = memo(() => {
         onClick={onSellHandler}
       >
         <MdOutlineSell cursor="pointer" size={20} />
-        Sell
+        {t('menu-sell')}
       </div>
 
       {email ? (
@@ -53,7 +55,7 @@ const Menu: FC = memo(() => {
           ) : (
             <AiOutlineUser size={20} />
           )}
-          Profile
+          {t('menu-profile')}
         </Link>
       ) : (
         <div
@@ -62,7 +64,7 @@ const Menu: FC = memo(() => {
           "
         >
           <FiUser size={20} />
-          <div className="text-[15px]">Sign in</div>
+          <div className="text-[15px]">{t('menu-signin')}</div>
         </div>
       )}
 

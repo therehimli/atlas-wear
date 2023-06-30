@@ -1,6 +1,7 @@
 import { FC, ChangeEvent } from 'react'
 import { MdOutlineModeEditOutline } from 'react-icons/md'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 import useUserLogin from '@/store/useUserLogin'
 import { uploadProductPhotoHandler } from '@/api/accommodations'
@@ -10,6 +11,7 @@ const ProfileSettings: FC = ({}) => {
   const { userLogin, setUserLogin } = useUserLogin()
   const { name, email, avatar } = userLogin
   const client = useQueryClient()
+  const { t } = useTranslation()
 
   const { mutate: changeAvatar } = useMutation({
     mutationFn: changeAvatarHandler,
@@ -75,14 +77,14 @@ const ProfileSettings: FC = ({}) => {
       <div className="grid grid-cols-2 gap-5">
         <div className="flex items-center justify-between gap-3 border-[0.3px] border-solid border-neutral-400 p-3 rounded-full">
           <div className="flex items-center gap-1">
-            <div>Имя: </div>
+            <div>{t('name')}: </div>
             <span className="font-semibold">{name}</span>
           </div>
           <MdOutlineModeEditOutline size={20} cursor="pointer" />
         </div>
         <div className="flex items-center justify-between gap-3 border-[0.3px] border-solid border-neutral-400 p-3 rounded-full">
           <div className="flex items-center gap-1">
-            <div>Почта: </div>
+            <div>{t('email')}: </div>
             <span className="font-semibold">{email}</span>
           </div>
         </div>
@@ -108,16 +110,16 @@ const ProfileSettings: FC = ({}) => {
           </svg>
         </span>
         <span className="absolute flex items-center justify-center w-full h-full text-red-500 transition-all duration-300 transform group-hover:translate-x-full ease">
-          Выйти
+          {t('logout')}
         </span>
-        <span className="relative invisible">Выйти</span>
+        <span className="relative invisible">{t('logout')}</span>
       </button>
       <div className="flex items-center gap-5">
         <div className="underline font-bold cursor-pointer text-[15px]">
-          Поменять пароль
+          {t('change-password')}
         </div>
         <div className="underline font-bold cursor-pointer text-[15px]">
-          Удалить аккаунт
+          {t('delete-account')}
         </div>
       </div>
     </div>

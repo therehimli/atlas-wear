@@ -2,7 +2,7 @@ import { authInstance } from '.'
 
 interface IComment {
   comment: string
-  id: string | undefined
+  id: string
 }
 
 export async function addCommentHandler(comment: IComment) {

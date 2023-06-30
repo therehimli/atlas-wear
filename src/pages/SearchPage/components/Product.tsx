@@ -55,7 +55,7 @@ const Product: FC<ItemProps> = ({ product }) => {
   return (
     <div className="w-[200px] h-[300px] flex flex-col gap-1">
       <div className="flex flex-col items-center gap-1">
-        <Link to={`product/${product._id}`}>
+        <Link to={`/product/${product._id}`}>
           {product.photos.length > 0 ? (
             <img
               ref={imageRef}
@@ -88,13 +88,13 @@ const Product: FC<ItemProps> = ({ product }) => {
         </div>
       </div>
 
-      <Link to={`product/${product._id}`}>
+      <Link to={`/product/${product._id}`}>
         <div className="truncate text-[15px] font-semibold">
           {product.title}
         </div>
       </Link>
       <div className="flex justify-between items-center">
-        <Link to={`product/${product._id}`}>
+        <Link to={`/product/${product._id}`}>
           <div className="flex flex-col">
             <div className="text-sm text-neutral-400">{product.category}</div>
             <p className="text-xl font-bold">{product.price} ₽</p>

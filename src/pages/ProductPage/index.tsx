@@ -15,6 +15,7 @@ import CommentsSection from './components/CommentsSection'
 import { useKeyDown } from '@/hooks/useKeyDown'
 import useUserLogin from '@/store/useUserLogin'
 import useToggleModalStore from '@/store/useModalToggle'
+import SimilarProducts from './components/SimilarProducts'
 
 const ProductPage = () => {
   const { id } = useParams()
@@ -35,8 +36,9 @@ const ProductPage = () => {
       toggleButton(1)
       return null
     }
-
-    addComment({ id, comment })
+    if (id) {
+      addComment({ id, comment })
+    }
     setComment('')
   }
 
@@ -69,14 +71,12 @@ const ProductPage = () => {
   const { data: product } = productQuery
   const { data: comments } = commentsQuery
 
-  if (productQuery.isLoading)
+  if (productQuery.isLoading && commentsQuery.isLoading)
     return (
       <div className="flex items-center justify-center mt-32 mb-64">
         <PuffLoader size={100} color="#36d7b7" />
       </div>
     )
-
-  if (commentsQuery.isLoading) return
 
   return (
     <div className="flex flex-col gap-5 justify-center">
@@ -96,6 +96,7 @@ const ProductPage = () => {
             descriptionRef={descriptionRef}
             product={product}
           />
+          <SimilarProducts product={product} />
           <ProductComment
             comment={comment}
             setComment={setComment}

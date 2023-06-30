@@ -1,6 +1,7 @@
-import { IColorsList } from '@/types/listTypes'
 import { FC, ReactNode } from 'react'
 import Select, { FormatOptionLabelMeta, PropsValue } from 'react-select'
+
+import { IColorsList } from '@/types/listTypes'
 
 interface CustomSelectProps {
   styles?: any

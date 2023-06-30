@@ -4,6 +4,7 @@ import { faX } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import useSearchState from '@/store/useSearchState'
 import useLocalStorage from '@/hooks/useLocalStorage'
@@ -11,6 +12,7 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 const Search = () => {
   library.add(faX)
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const [value, setValue] = useLocalStorage<string>('search', '')
   const searchState = useSearchState()
@@ -40,10 +42,16 @@ const Search = () => {
         onChange={(e) => setValue(e.target.value)}
         type="text"
         className="outline-none border-none sm:w-[100px] md:w-[250px] lg:w-[500px]"
-        placeholder="Свитер..."
+        placeholder={`${t('search-placeholder')}...`}
       />
       <button onClick={clearInputHandler}>
-        <FontAwesomeIcon size="lg" icon={faX} className="cursor-pointer" />
+        <FontAwesomeIcon
+          size="lg"
+          icon={faX}
+          className={`cursor-pointer mr-1 ${
+            value ? 'text-black' : 'text-transparent'
+          }`}
+        />
       </button>
     </form>
   )

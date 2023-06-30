@@ -42,7 +42,7 @@ export const sizeList: IListsType[] = [
   { id: nanoid(), value: 'xxxl', label: 'XXXL' },
 ]
 
-export const categoryList: IListsType[] = [
+export const categoryListRu: IListsType[] = [
   { id: nanoid(), value: 'штаны', label: 'Штаны' },
   { id: nanoid(), value: 'свитеры', label: 'Свитеры' },
   { id: nanoid(), value: 'футболки', label: 'Футболки' },
@@ -54,9 +54,21 @@ export const categoryList: IListsType[] = [
   { id: nanoid(), value: 'костюмы', label: 'Костюмы' },
 ]
 
+export const categoryListEn: IListsType[] = [
+  { id: nanoid(), value: 'штаны', label: 'Pants' },
+  { id: nanoid(), value: 'свитеры', label: 'Sweaters' },
+  { id: nanoid(), value: 'футболки', label: 'T-shirts' },
+  { id: nanoid(), value: 'жакеты', label: 'Jackets' },
+  { id: nanoid(), value: 'джинсы', label: 'Jeans' },
+  { id: nanoid(), value: 'нижнее бельё', label: 'Underwear' },
+  { id: nanoid(), value: 'носки', label: 'Socks' },
+  { id: nanoid(), value: 'шорты', label: 'Shorts' },
+  { id: nanoid(), value: 'костюмы', label: 'Suits' },
+]
+
 export const languagesList: IListsType[] = [
-  { id: nanoid(), value: 'русский', label: 'Русский язык' },
-  { id: nanoid(), value: 'english', label: 'English' },
+  { id: nanoid(), value: 'ru', label: 'Русский язык' },
+  { id: nanoid(), value: 'en', label: 'English' },
 ]
 
 export const deliveryMethodList: IListsType[] = [
@@ -75,6 +87,11 @@ export const genderList: IListsType[] = [
   { id: nanoid(), value: 'Мужская', label: 'Мужская' },
   { id: nanoid(), value: 'Детская', label: 'Детская' },
   { id: nanoid(), value: 'Унисекс', label: 'Унисекс' },
+]
+
+export const currencyList: IListsType[] = [
+  { id: nanoid(), value: 'rub', label: 'RUB' },
+  { id: nanoid(), value: 'usd', label: 'USD' },
 ]
 
 export const colorsList: IListsType[] & { color: string }[] = [
